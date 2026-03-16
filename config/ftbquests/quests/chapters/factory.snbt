@@ -1,0 +1,145 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: ""
+	filename: "factory"
+	group: "2167F4B6C561BC2B"
+	hide_quest_details_until_startable: true
+	icon: "kubejs:base_heart_factory_bloc"
+	id: "051B1D44FE4D2AFF"
+	images: [{
+		height: 15.0d
+		image: "kubejs:textures/fond/factory.png"
+		order: 10
+		rotation: 0.0d
+		width: 22.0d
+		x: 0.0d
+		y: 0.0d
+	}]
+	order_index: 2
+	quest_links: [ ]
+	quests: [
+		{
+			disable_toast: true
+			icon: "kubejs:base_heart_factory_bloc"
+			icon_scale: 0.5d
+			id: "60AD4B7AFB0B6270"
+			invisible: true
+			size: 1.5d
+			tasks: [{
+				id: "23D379AD86BC4DD5"
+				stage: "hub_factory_access"
+				type: "gamestage"
+			}]
+			title: "Allez à la Factory"
+			x: 0.0d
+			y: -0.5d
+		}
+		{
+			can_repeat: true
+			dependencies: ["60AD4B7AFB0B6270"]
+			hide_until_deps_visible: true
+			icon: "born_in_chaos_v1:chocolate_heart"
+			id: "1267B08D6774DB1B"
+			rewards: [{
+				auto: "enabled"
+				command: "/gamestage add @p factory_hp"
+				icon: "born_in_chaos_v1:chocolate_heart"
+				id: "51760652A4245696"
+				title: "50 Factory : +50 PV"
+				type: "command"
+			}]
+			tasks: [{
+				id: "70F6F9B8A5E9E5CB"
+				money_id: "sdm_coin"
+				type: "sdmshop:money"
+				value: 250L
+			}]
+			title: "Acheter des HP"
+			x: 0.0d
+			y: -2.0d
+		}
+		{
+			dependencies: ["60AD4B7AFB0B6270"]
+			icon: "minecraft:gold_ingot"
+			id: "416D90D6F83110FD"
+			tasks: [{
+				id: "0A59C9CA8A0224E0"
+				type: "custom"
+			}]
+			title: "Production II"
+			x: -3.0d
+			y: -0.5d
+		}
+		{
+			dependencies: ["60AD4B7AFB0B6270"]
+			icon: "minecraft:gold_block"
+			id: "19B9342A0453E246"
+			tasks: [{
+				id: "6CEB11FE19532E52"
+				type: "custom"
+			}]
+			title: "Production III"
+			x: -3.0d
+			y: -1.5d
+		}
+		{
+			dependencies: ["60AD4B7AFB0B6270"]
+			icon: "minecraft:raw_gold"
+			id: "1B2BA5E70D673453"
+			tasks: [{
+				id: "6FBFCF4ED725E5C8"
+				type: "custom"
+			}]
+			title: "Production I"
+			x: -3.0d
+			y: 0.5d
+		}
+		{
+			can_repeat: true
+			dependencies: ["60AD4B7AFB0B6270"]
+			icon: "alexsmobs:soul_heart"
+			id: "0D06746EC76327EF"
+			rewards: [{
+				auto: "enabled"
+				command: "/gamestage add @p factory_shield"
+				icon: "alexsmobs:soul_heart"
+				id: "63214F12AAD10C0C"
+				title: "Factory : Bouclier"
+				type: "command"
+			}]
+			tasks: [{
+				id: "2FF35480C96E51AE"
+				money_id: "sdm_coin"
+				type: "sdmshop:money"
+				value: 1000L
+			}]
+			title: "Bouclier"
+			x: 2.0d
+			y: -1.0d
+		}
+		{
+			can_repeat: true
+			dependencies: ["60AD4B7AFB0B6270"]
+			icon: "minecraft:bell"
+			id: "3EDE832B1DF21F37"
+			rewards: [{
+				auto: "enabled"
+				command: "/gamestage add @ factory_alarme"
+				icon: "minecraft:bell"
+				id: "1B63198698144E97"
+				title: "Factory : Alarme"
+				type: "command"
+			}]
+			tasks: [{
+				id: "0216E10C8CB9F003"
+				money_id: "sdm_coin"
+				type: "sdmshop:money"
+				value: 200L
+			}]
+			title: "Alarme"
+			x: 2.0d
+			y: 0.0d
+		}
+	]
+	title: "Factory"
+}

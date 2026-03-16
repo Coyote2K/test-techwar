@@ -1,0 +1,103 @@
+{
+	autofocus_id: "10DD4AA94B159706"
+	default_hide_dependency_lines: false
+	default_quest_shape: ""
+	filename: "academy"
+	group: "2167F4B6C561BC2B"
+	hide_quest_until_deps_complete: true
+	icon: "kubejs:base_heart_academy_bloc"
+	id: "566DC766CC3A9759"
+	images: [{
+		height: 30.0d
+		image: "kubejs:textures/fond/fond_academie.png"
+		rotation: 0.0d
+		width: 44.0d
+		x: 0.0d
+		y: 0.0d
+	}]
+	order_index: 0
+	quest_links: [ ]
+	quests: [
+		{
+			can_repeat: true
+			disable_toast: true
+			icon: "kubejs:base_heart_academy_bloc"
+			icon_scale: 0.5d
+			id: "0E3B0E547E0A7F67"
+			ignore_reward_blocking: true
+			invisible: true
+			size: 1.5d
+			tasks: [{
+				id: "1EA0B41DFFE70BE2"
+				stage: "hub_academy_access"
+				tags: ["hub_academy_access"]
+				title: "hub_academy_access"
+				type: "gamestage"
+			}]
+			title: "Allez à l'Academy"
+			x: 0.0d
+			y: -1.5d
+		}
+		{
+			dependencies: ["0E3B0E547E0A7F67"]
+			icon: "born_in_chaos_v1:chocolate_heart"
+			id: "1A309F7C868235E1"
+			tasks: [{
+				id: "2C8584C15C7A7757"
+				item: "minecraft:oak_log"
+				type: "item"
+			}]
+			title: "Acheter des HP"
+			x: 5.5d
+			y: 0.0d
+		}
+		{
+			can_repeat: true
+			dependencies: ["0E3B0E547E0A7F67"]
+			icon: "alexsmobs:soul_heart"
+			id: "3724D0F008739A84"
+			tasks: [{
+				id: "2A80A4BF80E308FC"
+				type: "custom"
+			}]
+			title: "Bouclier"
+			x: 4.5d
+			y: -2.0d
+		}
+		{
+			can_repeat: true
+			dependencies: ["0E3B0E547E0A7F67"]
+			icon: "minecraft:iron_ingot"
+			id: "10DD4AA94B159706"
+			rewards: [{
+				auto: "enabled"
+				command: "/gamestage add @p quest_drop_iron"
+				id: "5800FD68C83718C0"
+				type: "command"
+			}]
+			tasks: [{
+				id: "5035F157706E4848"
+				money_id: "sdm_coin"
+				type: "sdmshop:money"
+				value: 60L
+			}]
+			title: "Production Fer I"
+			x: -6.5d
+			y: 0.0d
+		}
+		{
+			can_repeat: true
+			dependencies: ["0E3B0E547E0A7F67"]
+			icon: "born_in_chaos_v1:dark_metal_ingot"
+			id: "3807FB32BECB1972"
+			tasks: [{
+				id: "55EBEEBC21F63B08"
+				type: "custom"
+			}]
+			title: "Production Fer II"
+			x: -6.5d
+			y: -1.0d
+		}
+	]
+	title: "Academy"
+}

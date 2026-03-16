@@ -1,0 +1,831 @@
+{
+	autofocus_id: "7BBDD3DF13B7EA68"
+	default_hide_dependency_lines: false
+	default_quest_shape: ""
+	filename: "rles"
+	group: ""
+	icon: {
+		Count: 1
+		id: "born_in_chaos_v1:lord_pumpkinheads_hat_helmet"
+		tag: {
+			Damage: 0
+		}
+	}
+	id: "6082EE20AD0A7528"
+	order_index: 0
+	quest_links: [ ]
+	quests: [
+		{
+			can_repeat: false
+			dependencies: ["6E4B04799C34CA43"]
+			icon: "minecraft:light_gray_candle"
+			id: "120F27DF6FBD475F"
+			shape: "diamond"
+			size: 1.5d
+			tasks: [{
+				consume_items: true
+				count: 200L
+				id: "50C20E5FAF6B1419"
+				item: { Count: 200, id: "minecraft:dragon_egg" }
+				type: "item"
+			}]
+			title: "Espion [RANG 1]"
+			x: 1.5d
+			y: 1.0d
+		}
+		{
+			can_repeat: true
+			dependencies: ["120F27DF6FBD475F"]
+			disable_toast: true
+			icon: "refurbished_furniture:post_box"
+			id: "2A8C9832F9B42A58"
+			rewards: [{
+				auto: "enabled"
+				command: "/say Hi, @p!"
+				id: "55E273B33802719D"
+				type: "command"
+			}]
+			subtitle: "25% d'interception"
+			tasks: [{
+				consume_items: true
+				count: 64L
+				disable_toast: true
+				id: "3916DB11EF6E0321"
+				item: "minecraft:dragon_egg"
+				type: "item"
+			}]
+			title: "Placer un mouchard"
+			x: -0.5d
+			y: 1.0d
+		}
+		{
+			dependencies: ["120F27DF6FBD475F"]
+			icon: "minecraft:gray_candle"
+			id: "49AC2B1309B9597D"
+			shape: "pentagon"
+			size: 1.5d
+			tasks: [{
+				consume_items: true
+				count: 400L
+				id: "27CDA9E392CAF120"
+				item: "minecraft:dragon_egg"
+				type: "item"
+			}]
+			title: "Espion [RANG 2]"
+			x: 1.5d
+			y: -1.5d
+		}
+		{
+			dependencies: ["49AC2B1309B9597D"]
+			icon: "minecraft:black_candle"
+			id: "0028D7F19FB05FC7"
+			shape: "octagon"
+			size: 1.5d
+			tasks: [{
+				consume_items: true
+				count: 800L
+				id: "6C2BC999F1FE29D8"
+				item: "minecraft:dragon_egg"
+				type: "item"
+			}]
+			title: "Espion [RANG 3]"
+			x: 1.5d
+			y: -4.0d
+		}
+		{
+			can_repeat: true
+			dependencies: ["49AC2B1309B9597D"]
+			icon: "refurbished_furniture:post_box"
+			id: "5FC64E0B049BB161"
+			ignore_reward_blocking: true
+			subtitle: "45% d'interception"
+			tasks: [{
+				consume_items: true
+				count: 64L
+				id: "7EFEA519DCA7FAB5"
+				item: "minecraft:dragon_egg"
+				type: "item"
+			}]
+			title: "Placer un mouchard"
+			x: -0.5d
+			y: -1.5d
+		}
+		{
+			can_repeat: true
+			dependencies: ["120F27DF6FBD475F"]
+			icon: {
+				Count: 1
+				id: "minecraft:splash_potion"
+				tag: {
+					Potion: "minecraft:invisibility"
+				}
+			}
+			id: "71B7A5ADA052BBD2"
+			rewards: [{
+				auto: "enabled"
+				command: "/effect give invisibility 30"
+				id: "2CBFBEB2D84D6544"
+				type: "command"
+			}]
+			subtitle: "30 sec"
+			tasks: [{
+				consume_items: true
+				count: 64L
+				id: "3228F45D0BAE6ECE"
+				item: "minecraft:dragon_egg"
+				type: "item"
+			}]
+			title: "Invisibilité"
+			x: 3.5d
+			y: 1.0d
+		}
+		{
+			dependencies: ["49AC2B1309B9597D"]
+			icon: "minecraft:music_disc_chirp"
+			id: "6321ABF83C7C908D"
+			rewards: [{
+				auto: "disabled"
+				command: "/execute store result score @s distance run execute if entity @p[distance=..100] run data get entity @p Pos"
+				id: "33D53F44E4C16F4F"
+				type: "command"
+			}]
+			subtitle: "Distance ennemie le plus proche"
+			tasks: [{
+				consume_items: true
+				count: 100L
+				id: "24535EAAAC94CF20"
+				item: "minecraft:dragon_egg"
+				type: "item"
+			}]
+			title: "Radar"
+			x: 3.5d
+			y: -1.5d
+		}
+		{
+			can_repeat: true
+			dependencies: ["120F27DF6FBD475F"]
+			disable_toast: true
+			icon: "simpleradio:microphone"
+			id: "7BBDD3DF13B7EA68"
+			rewards: [{
+				auto: "enabled"
+				command: "/execute as @p run tellraw @s \"tu as lancé mec\""
+				id: "106ED532919D550F"
+				type: "command"
+			}]
+			subtitle: "35% d'émission"
+			tasks: [{
+				id: "0368F8FE06B8D98E"
+				money_id: "sdm_coin"
+				type: "sdmshop:money"
+				value: 1000L
+			}]
+			title: "Contre espionnage"
+			x: -3.0d
+			y: 1.0d
+		}
+		{
+			can_repeat: true
+			dependencies: ["49AC2B1309B9597D"]
+			icon: "simpleradio:microphone"
+			id: "14C62085389BD6D6"
+			subtitle: "60% d'émission"
+			tasks: [{
+				consume_items: true
+				count: 32L
+				id: "74E25B6662A719A4"
+				item: { Count: 32, id: "minecraft:dragon_egg" }
+				type: "item"
+			}]
+			title: "Contre-espionnage"
+			x: -3.0d
+			y: -1.5d
+		}
+		{
+			can_repeat: true
+			dependencies: ["0028D7F19FB05FC7"]
+			icon: "refurbished_furniture:post_box"
+			id: "03909C8C7C2E3D7C"
+			subtitle: "70% d'interception"
+			tasks: [{
+				consume_items: true
+				count: 100L
+				id: "6D9D868DA6A9CEE9"
+				item: { Count: 100, id: "minecraft:dragon_egg" }
+				type: "item"
+			}]
+			x: -0.5d
+			y: -4.0d
+		}
+		{
+			can_repeat: true
+			dependencies: ["0028D7F19FB05FC7"]
+			icon: "simpleradio:microphone"
+			id: "182D3A4EA408F1FC"
+			subtitle: "90% d'émission"
+			tasks: [{
+				consume_items: true
+				count: 32L
+				id: "79732329115511B6"
+				item: { Count: 32, id: "minecraft:dragon_egg" }
+				type: "item"
+			}]
+			title: "Contre-espionnage"
+			x: -3.0d
+			y: -4.0d
+		}
+		{
+			dependencies: ["6E4B04799C34CA43"]
+			icon: "minecraft:book"
+			id: "0CE250D52E1AFC24"
+			rewards: [{
+				auto: "enabled"
+				command: "/gamestage add @p diplomatie_1"
+				id: "31D53EC0296573A7"
+				type: "command"
+			}]
+			shape: "diamond"
+			size: 1.5d
+			tasks: [{
+				id: "144104CAF0AB882F"
+				money_id: "sdm_coin"
+				type: "sdmshop:money"
+				value: 10000L
+			}]
+			title: "Diplomate I : Conseiller"
+			x: -5.25d
+			y: 5.25d
+		}
+		{
+			dependencies: ["0CE250D52E1AFC24"]
+			icon: "minecraft:writable_book"
+			id: "66D4CF01575EE67F"
+			ignore_reward_blocking: true
+			rewards: [{
+				auto: "enabled"
+				command: "/gamestage add @p diplomatie_2"
+				id: "2CDD1F6F20A8F807"
+				silent: true
+				title: "Diplomate II"
+				type: "command"
+			}]
+			shape: "pentagon"
+			size: 1.5d
+			tasks: [{
+				id: "030482ECBEEB60D9"
+				money_id: "sdm_coin"
+				type: "sdmshop:money"
+				value: 15000L
+			}]
+			title: "Diplomate II : Stratège"
+			x: -8.25d
+			y: 4.5d
+		}
+		{
+			dependencies: ["66D4CF01575EE67F"]
+			dependency_requirement: "one_completed"
+			icon: "dustydecorations:bookstack"
+			id: "3820B9D37550BCA3"
+			shape: "octagon"
+			size: 1.5d
+			tasks: [{
+				id: "19A15891234FFA52"
+				type: "custom"
+			}]
+			title: "Diplomate III : Chancelier"
+			x: -12.0d
+			y: 3.0d
+		}
+		{
+			dependencies: ["0CE250D52E1AFC24"]
+			icon: "securitycraft:universal_block_modifier"
+			id: "0E6958341D650361"
+			rewards: [{
+				auto: "enabled"
+				command: "/gamestage add @p mod_dev"
+				icon: "securitycraft:universal_block_modifier"
+				id: "5478A229A86D7F90"
+				ignore_reward_blocking: true
+				title: "Passez vôtre base en MODE : DEVELOPPEMENT"
+				type: "command"
+			}]
+			tasks: [{
+				id: "00577EC953EC684E"
+				money_id: "sdm_coin"
+				type: "sdmshop:money"
+				value: 120L
+			}]
+			title: "MODE : Dévellopement"
+			x: -4.5d
+			y: 2.5d
+		}
+		{
+			can_repeat: true
+			dependencies: ["0CE250D52E1AFC24"]
+			icon: "born_in_chaos_v1:spawn_structures_farm"
+			id: "59E768466615B10B"
+			rewards: [{
+				auto: "enabled"
+				command: "/gamestage add @p mod_def"
+				icon: "born_in_chaos_v1:spawn_structures_firewell"
+				id: "5328961DC696FB0D"
+				title: "Passez vôtre baseen MODE : DEFENSE"
+				type: "command"
+			}]
+			tasks: [{
+				id: "49617A2049648DD2"
+				money_id: "sdm_coin"
+				title: "Pay 120 coins"
+				type: "sdmshop:money"
+				value: 120L
+			}]
+			title: "MODE : Défense"
+			x: -6.0d
+			y: 7.5d
+		}
+		{
+			can_repeat: true
+			dependencies: ["0CE250D52E1AFC24"]
+			icon: {
+				Count: 1
+				id: "dixtas_armory:netherite_battle_axe"
+				tag: {
+					Damage: 0
+				}
+			}
+			id: "40960CE61CE599B4"
+			ignore_reward_blocking: true
+			rewards: [{
+				command: "/gamestage add @p mod_att"
+				icon: {
+					Count: 1
+					id: "dixtas_armory:netherite_battle_axe"
+					tag: {
+						Damage: 0
+					}
+				}
+				id: "312A907888B6FC31"
+				title: "Passer vôtre base en MODE : ATTAQUE"
+				type: "command"
+			}]
+			tasks: [{
+				id: "08D94CDE38E80DE5"
+				money_id: "sdm_coin"
+				title: "Payez 120 coins"
+				type: "sdmshop:money"
+				value: 120L
+			}]
+			title: "MODE : Attaque"
+			x: -6.5d
+			y: 9.5d
+		}
+		{
+			dependencies: ["66D4CF01575EE67F"]
+			id: "61D0B475BDB0440E"
+			tasks: [{
+				icon: "minecraft:player_head"
+				id: "643A32FEBB798024"
+				title: "Choisir un allié"
+				type: "custom"
+			}]
+			x: -9.0d
+			y: 7.0d
+		}
+		{
+			dependencies: ["3820B9D37550BCA3"]
+			icon: "minecraft:white_banner"
+			id: "2B599A3DE2A6FE0C"
+			tasks: [{
+				id: "7F302F5380372D21"
+				type: "custom"
+			}]
+			title: "Négociez une paix"
+			x: -11.0d
+			y: 0.5d
+		}
+		{
+			dependencies: ["6E4B04799C34CA43"]
+			icon: {
+				Count: 1
+				id: "minecraft:wooden_pickaxe"
+				tag: {
+					Damage: 0
+				}
+			}
+			id: "7ED6114B3085CD5B"
+			rewards: [
+				{
+					auto: "enabled"
+					command: "/tellraw @p [{\"text\":\"═════════════════════════════\\n\",\"color\":\"gold\"},{\"text\":\"   Vous devenez Ingénieur (rang I)\\n\",\"color\":\"gold\"},{\"text\":\"   Retrouvez la liste de vos rôles avec /roles !\\n\",\"color\":\"gold\"},{\"text\":\"═════════════════════════════\",\"color\":\"gold\"}]"
+					icon: {
+						Count: 1
+						id: "minecraft:wooden_pickaxe"
+						tag: {
+							Damage: 0
+						}
+					}
+					id: "5B60FD6BF7E28180"
+					title: "Ingénieur I"
+					type: "command"
+				}
+				{
+					auto: "enabled"
+					command: "/gamestage add @p ingenieur_1"
+					icon: {
+						Count: 1
+						id: "minecraft:iron_helmet"
+						tag: {
+							Damage: 0
+						}
+					}
+					id: "497C468C69FE8FE7"
+					silent: true
+					title: "Ingénieur I"
+					type: "command"
+				}
+			]
+			shape: "diamond"
+			size: 1.5d
+			tasks: [{
+				id: "683161E1C0BE5EE1"
+				money_id: "sdm_coin"
+				type: "sdmshop:money"
+				value: 3000L
+			}]
+			title: "Ingénieur I : Ingénieur"
+			x: -0.75d
+			y: 11.25d
+		}
+		{
+			dependencies: ["7ED6114B3085CD5B"]
+			icon: {
+				Count: 1
+				id: "minecraft:iron_pickaxe"
+				tag: {
+					Damage: 0
+				}
+			}
+			id: "20F5BBDFCBF36F00"
+			rewards: [
+				{
+					auto: "enabled"
+					command: "/tellraw @p [{\"text\":\"═══════════════════════════\\n\",\"color\":\"gold\"},{\"text\":\"   Vous devenez Ingénieur (rang II)\\n\",\"color\":\"gold\"},{\"text\":\"   Retrouvez la liste de vos rôles avec /roles !\\n\",\"color\":\"gold\"},{\"text\":\"═══════════════════════════\",\"color\":\"gold\"}]"
+					icon: {
+						Count: 1
+						id: "minecraft:iron_pickaxe"
+						tag: {
+							Damage: 0
+						}
+					}
+					id: "1DBE2732DAC786F8"
+					title: "Ingénieur II"
+					type: "command"
+				}
+				{
+					auto: "enabled"
+					command: "/gamestage add @p ingenieur_2"
+					icon: {
+						Count: 1
+						id: "minecraft:iron_helmet"
+						tag: {
+							Damage: 0
+						}
+					}
+					id: "10F702187A7054A8"
+					silent: true
+					title: "Ingénieur II"
+					type: "command"
+				}
+			]
+			shape: "pentagon"
+			size: 1.5d
+			tasks: [{
+				id: "01694862A0976E97"
+				money_id: "sdm_coin"
+				type: "sdmshop:money"
+				value: 10000L
+			}]
+			title: "Ingénieur II : Chef de Production"
+			x: -2.25d
+			y: 13.5d
+		}
+		{
+			can_repeat: true
+			dependencies: ["184DC5D6DBD4F508"]
+			dependency_requirement: "all_started"
+			icon: "minecraft:soul_campfire"
+			id: "3A6FD18FCA6006E3"
+			rewards: [
+				{
+					auto: "enabled"
+					command: "/airdrop"
+					icon: "minecraft:soul_campfire"
+					id: "6F1BD54AAE32E717"
+					ignore_reward_blocking: true
+					title: "Commander un Airdrop"
+					type: "command"
+				}
+				{
+					auto: "enabled"
+					command: "/tellraw @p [{\"text\":\"═════════════════════════════\\n\",\"color\":\"gold\"},{\"text\":\"   Vous avez commandé un Airdrop !\\n\",\"color\":\"gold\"},{\"text\":\"═════════════════════════════\",\"color\":\"gold\"}]"
+					icon: "minecraft:soul_campfire"
+					id: "54415DC8401BAC28"
+					ignore_reward_blocking: true
+					title: "Commander un Airdrop"
+					type: "command"
+				}
+			]
+			tasks: [{
+				id: "72A41F74D2905FC6"
+				money_id: "sdm_coin"
+				type: "sdmshop:money"
+				value: 500L
+			}]
+			title: "Commander un larguage"
+			x: -1.5d
+			y: 17.0d
+		}
+		{
+			dependencies: ["6E4B04799C34CA43"]
+			icon: "minecraft:gold_nugget"
+			id: "3B5DB59ECAF85E07"
+			shape: "diamond"
+			size: 1.5d
+			tasks: [{
+				id: "0D4B0DF8571BDE33"
+				type: "custom"
+			}]
+			title: "Gambler I : Joueur de Poker"
+			x: 4.5d
+			y: 11.25d
+		}
+		{
+			dependencies: ["6E4B04799C34CA43"]
+			icon: {
+				Count: 1
+				id: "dixtas_armory:iron_longsword"
+				tag: {
+					Damage: 0
+				}
+			}
+			id: "600B0576DD28A43E"
+			shape: "diamond"
+			size: 1.5d
+			tasks: [{
+				id: "261919808292B0B9"
+				type: "custom"
+			}]
+			title: "Soldat I : Caporal"
+			x: 7.5d
+			y: 5.25d
+		}
+		{
+			dependencies: ["600B0576DD28A43E"]
+			icon: "minecraft:enchanted_golden_apple"
+			id: "6F16023A5EAD3786"
+			tasks: [{
+				id: "76482A449367C88F"
+				type: "custom"
+			}]
+			title: "Se préparer à l'assault !"
+			x: 6.5d
+			y: 2.5d
+		}
+		{
+			dependencies: ["3B5DB59ECAF85E07"]
+			icon: "minecraft:gold_ingot"
+			id: "75EBFD66C739C2D7"
+			shape: "pentagon"
+			size: 1.5d
+			tasks: [{
+				icon: "minecraft:gold_ingot"
+				id: "2F89682472BFC3D0"
+				title: "Gambler II : Accros du Casino"
+				type: "custom"
+			}]
+			title: "Gambler II : Accros du Casino"
+			x: 6.75d
+			y: 13.5d
+		}
+		{
+			dependencies: ["75EBFD66C739C2D7"]
+			icon: "minecraft:gold_block"
+			id: "1FF4CB7AE00AD25D"
+			shape: "octagon"
+			size: 1.5d
+			tasks: [{
+				id: "5E16F12025898BFC"
+				type: "custom"
+			}]
+			title: "Gambler III : Compteur de Cartes"
+			x: 9.0d
+			y: 15.75d
+		}
+		{
+			dependencies: ["3B5DB59ECAF85E07"]
+			icon: "minecraft:bell"
+			id: "109FF3D4A9EADD10"
+			tasks: [{
+				id: "0D95EDF9E4ECFE7E"
+				type: "custom"
+			}]
+			title: "Quitte ou Double"
+			x: 6.5d
+			y: 9.5d
+		}
+		{
+			can_repeat: true
+			dependencies: ["75EBFD66C739C2D7"]
+			icon: {
+				Count: 1
+				id: "farmersdelight:golden_knife"
+				tag: {
+					Damage: 0
+				}
+			}
+			id: "03F4916441F9E1AA"
+			tasks: [{
+				id: "592CC8D85677E2CA"
+				type: "custom"
+			}]
+			title: "Empoisonner un ennemie"
+			x: 9.0d
+			y: 11.5d
+		}
+		{
+			can_repeat: true
+			dependencies: ["1FF4CB7AE00AD25D"]
+			icon: "born_in_chaos_v1:death_totem"
+			id: "1D4AB3478BD9ED11"
+			tasks: [{
+				id: "34D91ED20175138F"
+				type: "custom"
+			}]
+			title: "Envoyer la Faucheuse"
+			x: 11.0d
+			y: 14.0d
+		}
+		{
+			icon: "kubejs:base_heart_academy_bloc"
+			icon_scale: 1.5d
+			id: "6E4B04799C34CA43"
+			size: 3.0d
+			title: "Rendez-vous à l'Academy"
+			x: 1.5d
+			y: 7.5d
+		}
+		{
+			dependencies: ["600B0576DD28A43E"]
+			icon: {
+				Count: 1
+				id: "minecraft:golden_sword"
+				tag: {
+					Damage: 0
+				}
+			}
+			id: "55BF6EBC1A4C5497"
+			shape: "pentagon"
+			size: 1.5d
+			tasks: [{
+				id: "5FBF24290015D281"
+				type: "custom"
+			}]
+			title: "Soldat II : Lieutenant"
+			x: 11.0d
+			y: 4.0d
+		}
+		{
+			dependencies: ["55BF6EBC1A4C5497"]
+			icon: {
+				Count: 1
+				id: "minecraft:diamond_sword"
+				tag: {
+					Damage: 0
+				}
+			}
+			id: "45C4E5A9545149F4"
+			shape: "octagon"
+			size: 1.5d
+			tasks: [{
+				icon: {
+					Count: 1
+					id: "minecraft:diamond_sword"
+					tag: {
+						Damage: 0
+					}
+				}
+				id: "62D9D8A93228FC81"
+				title: "Soldat III : Général"
+				type: "custom"
+			}]
+			title: "Soldat III : Géneral sous les Cieux"
+			x: 13.5d
+			y: 3.0d
+		}
+		{
+			can_repeat: true
+			dependencies: ["55BF6EBC1A4C5497"]
+			icon: "minecraft:experience_bottle"
+			id: "2A44347C5879DC2C"
+			tasks: [{
+				id: "53BF14A25A8949FA"
+				type: "custom"
+			}]
+			title: "Acheter de l'expérience"
+			x: 10.0d
+			y: 1.5d
+		}
+		{
+			dependencies: ["45C4E5A9545149F4"]
+			icon: {
+				Count: 1
+				id: "arphex:spacetime_chestplate"
+				tag: {
+					Damage: 0
+				}
+			}
+			id: "3584D164047027CF"
+			tasks: [{
+				icon: {
+					Count: 1
+					id: "arphex:spacetime_chestplate"
+					tag: {
+						Damage: 0
+					}
+				}
+				id: "206A5AF16E7430F8"
+				title: "Choisir l'Armure"
+				type: "custom"
+			}]
+			title: "Chosir l' Armure"
+			x: 12.5d
+			y: 0.5d
+		}
+		{
+			dependencies: ["45C4E5A9545149F4"]
+			icon: "the_obsessed:debug_sword"
+			id: "1098A642AD11C9EB"
+			tasks: [{
+				id: "323BFAD110219FBD"
+				type: "custom"
+			}]
+			title: "Choisir l'Epée"
+			x: 15.0d
+			y: 6.0d
+		}
+		{
+			dependencies: ["20F5BBDFCBF36F00"]
+			icon: {
+				Count: 1
+				id: "minecraft:diamond_pickaxe"
+				tag: {
+					Damage: 0
+				}
+			}
+			id: "184DC5D6DBD4F508"
+			rewards: [
+				{
+					auto: "enabled"
+					command: "/tellraw @p [{\"text\":\"═════════════════════════════\\n\",\"color\":\"gold\"},{\"text\":\"   Vous devenez Ingénieur (rang III)\\n\",\"color\":\"gold\"},{\"text\":\"   Retrouvez la liste de vos rôles avec /roles !\\n\",\"color\":\"gold\"},{\"text\":\"═════════════════════════════\",\"color\":\"gold\"}]"
+					icon: {
+						Count: 1
+						id: "minecraft:diamond_pickaxe"
+						tag: {
+							Damage: 0
+						}
+					}
+					id: "0649AD1211278286"
+					title: "Ingénieur III"
+					type: "command"
+				}
+				{
+					auto: "enabled"
+					command: "/gamestage add @p ingenieur_3"
+					icon: {
+						Count: 1
+						id: "minecraft:iron_helmet"
+						tag: {
+							Damage: 0
+						}
+					}
+					id: "67AEA90DA4F85B7F"
+					silent: true
+					title: "Ingénieur III"
+					type: "command"
+				}
+			]
+			shape: "octagon"
+			size: 1.5d
+			tasks: [{
+				id: "499BF43667F4966F"
+				money_id: "sdm_coin"
+				type: "sdmshop:money"
+				value: 20000L
+			}]
+			title: "Ingénieur III : Dr. Vegapunk"
+			x: -4.0d
+			y: 16.0d
+		}
+	]
+	title: "Rôles"
+}

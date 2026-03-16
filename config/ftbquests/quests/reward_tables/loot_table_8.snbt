@@ -1,0 +1,28 @@
+{
+	id: "41BA9162B60AF4C8"
+	loot_size: 1
+	order_index: 7
+	rewards: [
+		{ count: 2, item: "minecraft:enchanted_golden_apple" }
+		{ count: 4, item: "farmersdelight:melon_popsicle" }
+		{ count: 2, item: "minecraft:fermented_spider_eye" }
+		{ item: "arphex:infernal_shard" }
+		{ count: 10, item: "minecraft:obsidian" }
+		{ count: 3, item: "arphex:bane_of_the_darkness" }
+		{ count: 20, item: "minecraft:quartz" }
+		{
+			item: {
+				Count: 1
+				id: "minecraft:painting"
+				tag: {
+					EntityTag: {
+						variant: "ls_spooky_paintings:cave_horror"
+					}
+				}
+			}
+		}
+		{ count: 2, item: "arphex:fire_opal_shard" }
+		{ count: 15, item: "minecraft:experience_bottle" }
+	]
+	title: "loot_table 8"
+}

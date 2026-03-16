@@ -1,0 +1,5 @@
+{
+	sellAnyItems: 0b
+	disableKeyBinding: 0b
+	maxOffersForPlayer: 10
+}

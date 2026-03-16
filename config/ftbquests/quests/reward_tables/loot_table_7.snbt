@@ -1,0 +1,22 @@
+{
+	id: "6592703F7DD49C25"
+	loot_size: 1
+	order_index: 8
+	rewards: [
+		{ count: 2, item: "arphex:abyssal_shard" }
+		{ count: 5, item: "born_in_chaos_v1:phantom_powder" }
+		{ count: 2, item: "born_in_chaos_v1:bloody_gadfly_eye" }
+		{ item: "arphex:void_geode_shard" }
+		{
+			item: {
+				Count: 1
+				id: "minecraft:potion"
+				tag: {
+					Potion: "alexsmobs:bug_pheromones"
+				}
+			}
+		}
+		{ item: "minecraft:netherite_ingot" }
+	]
+	title: "loot_table 7"
+}

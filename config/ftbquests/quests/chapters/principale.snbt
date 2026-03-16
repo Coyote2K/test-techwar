@@ -1,0 +1,53 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: ""
+	filename: "principale"
+	group: "2167F4B6C561BC2B"
+	hide_quest_until_deps_complete: true
+	icon: "kubejs:base_heart_principal_bloc"
+	id: "745008358C5E4C17"
+	images: [{
+		height: 15.0d
+		image: "kubejs:textures/fond/coeur_principale.png"
+		rotation: 0.0d
+		width: 22.0d
+		x: -0.5d
+		y: 2.5d
+	}]
+	order_index: 1
+	quest_links: [ ]
+	quests: [
+		{
+			can_repeat: true
+			disable_toast: true
+			icon: "kubejs:base_heart_principal_bloc"
+			icon_scale: 0.5d
+			id: "5D4A3EAE22F6C0C0"
+			ignore_reward_blocking: true
+			invisible: true
+			size: 1.5d
+			tasks: [{
+				id: "189DB4DA5CA282C1"
+				stage: "hub_principal_access"
+				type: "gamestage"
+			}]
+			title: "Allez à vôtre base principale"
+			x: -0.5d
+			y: 5.0d
+		}
+		{
+			can_repeat: true
+			dependencies: ["5D4A3EAE22F6C0C0"]
+			id: "53E3A0A89A94B948"
+			tasks: [{
+				icon: "born_in_chaos_v1:chocolate_heart"
+				id: "0EDABEB859F321DC"
+				title: "Acheter HP"
+				type: "custom"
+			}]
+			x: -2.5d
+			y: 4.0d
+		}
+	]
+	title: "Principale"
+}

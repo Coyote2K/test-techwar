@@ -1,0 +1,16 @@
+{
+	id: "446B1D431F899C1F"
+	loot_size: 1
+	order_index: 6
+	rewards: [
+		{ count: 16, item: "minecraft:diamond" }
+		{ count: 2, item: "minecraft:enchanted_golden_apple" }
+		{ count: 10, item: "minecraft:golden_apple" }
+		{ count: 3, item: "minecraft:diamond_block" }
+		{
+			type: "xp_levels"
+			xp_levels: 15
+		}
+	]
+	title: "cursed_loot_table"
+}
