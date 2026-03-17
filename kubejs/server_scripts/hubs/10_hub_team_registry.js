@@ -323,7 +323,7 @@ function resetQuestIfConfigured(player, questId) {
 // =========================
 
 function getTeamMode(root, teamId) {
-  log("On check bien le team mode" + root.teamMode[teamId])
+  log("On check bien le team mode " + root.teamMode[teamId])
   return root.teamMode[teamId] ? root.teamMode[teamId] : "prod"
 }
 

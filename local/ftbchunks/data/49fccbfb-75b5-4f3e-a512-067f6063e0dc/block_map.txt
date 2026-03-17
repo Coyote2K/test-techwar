@@ -8,6 +8,7 @@
 #3DE8FE minecraft:birch_leaves
 #C9CBB9 minecraft:blackstone
 #2A3906 minecraft:blackstone_slab
+#5024D6 minecraft:blackstone_stairs
 #A8E5E5 mekanism:block_salt
 #657B45 minecraft:bone_block
 #207534 minecraft:brown_mushroom
@@ -52,6 +53,7 @@
 #E3886A minecraft:oak_planks
 #4A5E4E minecraft:obsidian
 #B29458 mekanism:osmium_ore
+#5CDCB7 minecraft:polished_basalt
 #FB03F5 minecraft:polished_blackstone_brick_slab
 #19F005 minecraft:polished_blackstone_brick_stairs
 #FC3FCF minecraft:polished_blackstone_bricks

@@ -59,7 +59,7 @@ ServerEvents.tick(event => {
       continue
     }
 
-    // ✅ Drop seulement si le joueur est DANS le hub (radius config)
+    // ✅ Drop seulement si le joueur est DANS lsupprimée hub (radius config)
     var isInHub = global.HubRegistry.isPlayerNearType(server, player, j.teamId, j.hubType)
     if (!isInHub) {
       log("[DROP] joueur hors hub -> on ne drop pas (hubType=" + j.hubType + ")")
@@ -76,6 +76,8 @@ ServerEvents.tick(event => {
 
     if (j.remaining <= 0) {
       jobs.splice(i, 1)
+      log("finit avec" + j.hubType)
+      if (j.hubType == 'ACADEMY'){addStageCmd(server, player.username, 'free_academy')}
       log("[DROP] job terminé -> supprimé")
     }
   }
@@ -285,7 +287,7 @@ GameStageEvents.stageAdded(event => {
     let multiplicateur_time = 1.0
     let multiplicateur_count = 1.0
     if (mod === 'dev'){
-      multiplicateur_time = 0.75
+      multiplicateur_time = 0.1
       multiplicateur_count = 1.25
     }
   var hasIngenieur = player.stages.has("ingenieur_2") || player.stages.has("ingenieur_3")
@@ -294,9 +296,10 @@ GameStageEvents.stageAdded(event => {
     multiplicateur_time *= 0.8
     multiplicateur_count *= 2.0
   }
-    var period_ticks = Math.ceil(20 * 1 * multiplicateur_time * multiplicateur_time)
+    var period_ticks = Math.ceil(20 * 1 * multiplicateur_time)
+    log("multiplication_time = " + multiplicateur_time)
     log("period tick = " + period_ticks)
-    var total_count = Math.floor(128 * multiplicateur_count * multiplicateur_count)
+    var total_count = Math.floor(128 * multiplicateur_count)
     log-("count item = " + total_count)
     dropOverTime(player, teamId, HUB_TYPE, dim, x, y, z, period_ticks, total_count, DROP_ITEM, 1)
   }

@@ -66,7 +66,11 @@
 		}
 		{
 			can_repeat: true
-			dependencies: ["0E3B0E547E0A7F67"]
+			dependencies: [
+				"0E3B0E547E0A7F67"
+				"4B9523489EA21D00"
+			]
+			hide_dependency_lines: true
 			icon: "minecraft:iron_ingot"
 			id: "10DD4AA94B159706"
 			rewards: [{
@@ -87,7 +91,11 @@
 		}
 		{
 			can_repeat: true
-			dependencies: ["0E3B0E547E0A7F67"]
+			dependencies: [
+				"0E3B0E547E0A7F67"
+				"4B9523489EA21D00"
+			]
+			hide_dependency_lines: true
 			icon: "born_in_chaos_v1:dark_metal_ingot"
 			id: "3807FB32BECB1972"
 			rewards: [{
@@ -141,15 +149,36 @@
 		}
 		{
 			can_repeat: true
+			dependencies: [
+				"0E3B0E547E0A7F67"
+				"4B9523489EA21D00"
+			]
+			hide_dependency_lines: true
+			hide_until_deps_complete: true
+			hide_until_deps_visible: true
 			icon: "minecraft:iron_block"
 			id: "1597A99CDBA2F5C0"
-			rewards: [{
-				auto: "enabled"
-				command: "/gamestage add @p quest_drop_iron_3"
-				id: "6A0DBD03A00FFCBC"
-				silent: true
-				type: "command"
-			}]
+			rewards: [
+				{
+					auto: "enabled"
+					command: "/gamestage add @p quest_drop_iron_3"
+					id: "6A0DBD03A00FFCBC"
+					silent: true
+					type: "command"
+				}
+				{
+					auto: "enabled"
+					command: "/gamestage remove @p free_academy"
+					id: "68420AAC0A2EE126"
+					type: "command"
+				}
+				{
+					auto: "enabled"
+					command: "/ftbquests change_progress @p reset 4B9523489EA21D00"
+					id: "521D7F83C3E2E827"
+					type: "command"
+				}
+			]
 			tasks: [{
 				id: "6B27D9B2C4ED95F7"
 				money_id: "sdm_coin"
@@ -159,6 +188,19 @@
 			title: "Production Fer III"
 			x: -6.5d
 			y: -2.0d
+		}
+		{
+			id: "4B9523489EA21D00"
+			invisible: true
+			tasks: [{
+				icon: "ftbquests:book"
+				id: "2E44C1EC801E19B0"
+				stage: "free_academy"
+				title: "Academy libre"
+				type: "gamestage"
+			}]
+			x: 0.0d
+			y: 1.0d
 		}
 	]
 	title: "Academy"
