@@ -621,28 +621,74 @@ function isPlayerNearType(server, player, teamId, type) {
 // =========================
 // APPLY : entrée/sortie (stage + quest reset + message)
 // =========================
-function applyNearStateTransition(player, type, wasNear, isNear) {
+
+function deadStageOfType(type) {
+  const cfg = getCfg();
+  const def = (cfg.HUB_TYPES || {})[type] || {};
+  return def.deadStage || null;
+}
+
+function applyNearStateTransition(player, type, wasNear, isNear, nearHub) {
   const stage = stageOfType(type);
-  const questIdExit = questIdOfType(type); // si vous voulez reset sur sortie, on réutilise questId
+  const deadStage = deadStageOfType(type);
+  const questIdExit = questIdOfType(type);
   const enterMsg = enterMessageOfType(type);
 
+  const isDead = !!(nearHub && nearHub.dead);
+
+  // Entrée dans la zone
   if (!wasNear && isNear) {
     if (enterMsg) player.tell(asStr(enterMsg));
+
     if (stage) addStageCmd(player.server, player.username, stage);
-    log("ENTER type=" + type + " stage=" + stage);
+
+    if (isDead && deadStage) {
+      addStageCmd(player.server, player.username, deadStage);
+    } else if (deadStage) {
+      removeStageCmd(player.server, player.username, deadStage);
+    }
+
+    log("ENTER type=" + type + " stage=" + stage + " deadStage=" + deadStage + " isDead=" + isDead);
   }
 
+  // Sortie de zone
   if (wasNear && !isNear) {
     const exitMsg = exitMessageOfType(type);
     if (exitMsg) player.tell(asStr(exitMsg));
 
     if (stage) removeStageCmd(player.server, player.username, stage);
+    if (deadStage) removeStageCmd(player.server, player.username, deadStage);
+
     if (questIdExit) resetQuestIfConfigured(player, questIdExit);
 
-    log("EXIT type=" + type + " stage=" + stage + " questId=" + questIdExit);
+    log("EXIT type=" + type + " stage=" + stage + " deadStage=" + deadStage + " questId=" + questIdExit);
   }
 }
 
+function getNearbyHubOfType(server, player, teamId, type) {
+  const root = getRoot(server);
+  ensureTeamEntry(root.hubsByTeam, teamId);
+
+  const dim = asStr(player.level.dimension);
+  const hubsMap = root.hubsByTeam[teamId][type] || {};
+  const keys = Object.keys(hubsMap);
+
+  if (keys.length === 0) return null;
+
+  const r = radiusOfType(type);
+  const r2 = r * r;
+
+  for (let i = 0; i < keys.length; i++) {
+    var h = hubsMap[keys[i]];
+    if (!h) continue;
+    if (asStr(h.dim) !== dim) continue;
+
+    var d2 = distSq(player.x, player.y, player.z, h.x + 0.5, h.y + 0.5, h.z + 0.5);
+    if (d2 <= r2) return h;
+  }
+
+  return null;
+}
 
 // =========================
 // TICK (périodique)
@@ -683,15 +729,12 @@ ServerEvents.tick(event => {
 
       var type = types[i];
       var wasNear = !!root.nearState[uuid][type];
-      var isNear = isPlayerNearType(server, p, teamNow, type);
+      var nearHub = getNearbyHubOfType(server, p, teamNow, type);
+      var isNear = nearHub != null;
 
-      if (wasNear !== isNear) {
-        applyNearStateTransition(p, type, wasNear, isNear);
-        root.nearState[uuid][type] = isNear;
-      } else {
-        root.nearState[uuid][type] = isNear;
-      }
-    }
+      applyNearStateTransition(p, type, wasNear, isNear, nearHub);
+      root.nearState[uuid][type] = isNear;
+          }
   }
   log("Tick end");
 });

@@ -25,6 +25,25 @@ function showBaseAttackedCmd(server, teamId) {
   reg.runCmdSilentWithServer(server, "ftbteams team message " + teamId + ' Base attaquée, préparez la défense.');
 }
 
+function sendMessageToTeam(server, targetTeamId, message) {
+  if (!server || !targetTeamId || !message) return;
+
+  const reg = HR();
+  if (!reg) return;
+
+  const players = server.players;
+  if (!players) return;
+
+  for (var pl of players) {
+    if (!pl) continue;
+
+    var playerTeamId = String(reg.teamOf(server, pl));
+    if (playerTeamId === String(targetTeamId)) {
+      pl.tell(String(message));
+    }
+  }
+}
+
 function sanitizeId(s) {
   return String(s).toLowerCase().replace(/[^a-z0-9_./-]/g, "_");
 }
@@ -228,7 +247,9 @@ BlockEvents.leftClicked(event => {
   }
 
   const ownerTeam = String(owner.teamId);
-  showBaseAttackedCmd(server, ownerTeam)
+  p.tell("On a les infos sur la team qui SUBIT : " + ownerTeam);
+
+  sendMessageToTeam(server, ownerTeam, "§cVotre base est attaquée ! §7Préparez la défense.");
   if (hub.dead) {
     p.tell("§7Ce coeur est déjà éteint.");
     return;
@@ -245,5 +266,90 @@ BlockEvents.leftClicked(event => {
     hub.dead = true;
     p.tell("§4Le coeur " + type + " est éteint !");
     // Ici : vous choisirez la conséquence (désactivation zone, remplacement bloc, etc.)
+  }
+});
+
+function getTeamNameByTeamId(root, teamId) {
+  if (!root || !teamId) return null;
+
+  const playerTeam = root.playerTeam || {};
+  const playerTeamName = root.playerTeamName || {};
+  const uuids = Object.keys(playerTeam);
+
+  for (let i = 0; i < uuids.length; i++) {
+    const uuid = uuids[i];
+
+    if (String(playerTeam[uuid]) === String(teamId)) {
+      const name = playerTeamName[uuid];
+      if (name != null && String(name).length > 0) {
+        return String(name);
+      }
+    }
+  }
+
+  return null;
+}
+
+function stripAfterHash(text) {
+  if (!text) return text;
+
+  var s = String(text);
+  var i = s.indexOf("#");
+
+  if (i === -1) return s;
+
+  return s.substring(0, i);
+}
+
+BlockEvents.rightClicked(event => {
+  const reg = HR();
+  if (!reg) return;
+  if (event.hand != "MAIN_HAND") return;
+
+  const b = event.block;
+  const id = reg.asStr(b.id);
+  if (!reg.isHubBlockId(id)) return;
+
+  const p = event.player;
+  if (!p) return;
+
+  const server = event.server;
+  const type = reg.hubTypeOfBlockId(id);
+  if (!type) return;
+
+  const root = reg.getRoot(server);
+  const dim = reg.asStr(b.level.dimension);
+  const posKey = reg.keyOf(dim, b.x, b.y, b.z);
+
+  const owner = root.hubIndexByPos ? root.hubIndexByPos[posKey] : null;
+  if (!owner) {
+    p.tell("§cImpossible de retrouver le propriétaire de ce cœur.");
+    return;
+  }
+
+  const ownerTeamId = String(owner.teamId);
+  var ownerTeamName = stripAfterHash(getTeamNameByTeamId(root, ownerTeamId));
+  if (!ownerTeamName) ownerTeamName = ownerTeamId;
+
+  const hub = root.hubsByTeam[ownerTeamId] &&
+              root.hubsByTeam[ownerTeamId][type] &&
+              root.hubsByTeam[ownerTeamId][type][posKey];
+
+  if (!hub) {
+    p.tell("§cImpossible de retrouver les données du cœur.");
+    return;
+  }
+
+  ensureHubHpFields(hub, type);
+
+  p.tell("§6=== Informations du cœur ===");
+  p.tell("§eType : §f" + type);
+  p.tell("§eÉquipe propriétaire : §f" + ownerTeamName);
+  p.tell("§ePoints de vie : §f" + hub.hp + "§7/§f" + hub.maxHp);
+
+  if (hub.dead) {
+    p.tell("§cStatut : éteint");
+  } else {
+    p.tell("§aStatut : actif");
   }
 });

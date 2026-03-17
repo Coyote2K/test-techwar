@@ -27,7 +27,7 @@ global.FTBQuestsBridge.resetQuest = function(player, questId) {
     server.runCommandSilent(cmd);
     return true;
   } catch (e) {
-    console.log("[FTBQB] resetQuest failed cmd=/" + cmd + " err=" + e);
+    console.log("[FTBQB] reset Quest failed cmd=/" + cmd + " err=" + e);
     return false;
   }
 };
@@ -100,6 +100,8 @@ function dropOverTime(player, teamId, hubType, dimensionId, x, y, z, periodTicks
   })
 }
 
+
+
 FTBQuestsEvents.completed(event => {
   log("QUEST COMPLETE CATCH"+ QUEST_ID)
   const obj = event.getObject()
@@ -112,6 +114,7 @@ FTBQuestsEvents.completed(event => {
   const player = event.player
   log("On a reconnu loe player " + player);
   var root = global.HubRegistry.getRoot(server)
+  
   global.HubRegistry.ensureTeamEntry(root.hubsByTeam, teamId)
   
   const hubsMap = root.hubsByTeam[teamId][HUB_TYPE] || {}
@@ -144,7 +147,24 @@ GameStageEvents.stageAdded(event => {
 
   var server = player.server
   console.info("[HUBS] stage reçu=" + stage + " par " + player.username + " uuid=" + player.uuid)
+  if (stage === "academy_revive") {
+  player.stages.remove("academy_revive")
+  var questId = "738AC2F34C7DA91E"
+  global.FTBQuestsBridge.resetQuest(player, questId)
+  var reg = global.HubRegistry
+  var root = reg.getRoot(server)
+  var teamId = reg.teamOf(server, player)
 
+  var ok = reviveTeamHub(server, teamId, "ACADEMY")
+
+  if (ok) {
+    player.tell("§aLe coeur de l'Académie a été réactivé.")
+  } else {
+    player.tell("§cAucun coeur Académie trouvé pour votre équipe.")
+  }
+
+  return
+}
   // =====================================================
   // STAGE : quest_drop_iron
   // =====================================================
