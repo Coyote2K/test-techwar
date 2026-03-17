@@ -135,6 +135,13 @@
 					id: "075CA7CEA36F45FC"
 					type: "command"
 				}
+				{
+					auto: "enabled"
+					command: "/gamestage add @p free_academy"
+					icon: "minecraft:totem_of_undying"
+					id: "615700DDADDC83E8"
+					type: "command"
+				}
 			]
 			tasks: [
 				{
@@ -199,6 +206,7 @@
 			y: -2.0d
 		}
 		{
+			can_repeat: true
 			id: "4B9523489EA21D00"
 			invisible: true
 			tasks: [{

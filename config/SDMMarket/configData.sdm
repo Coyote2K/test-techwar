@@ -1,3 +1,52 @@
 {
-	categories: [ ]
+	categories: [
+		{
+			entries: [ ]
+			icon: {
+				id: "minecraft:barrier"
+				Count: 1b
+			}
+			categoryName: "Empty Name"
+			categoryID: [I;
+				2121029253
+				-645903391
+				-1124810997
+				820074051
+			]
+		}
+		{
+			entries: [{
+				item: {
+					id: "minecraft:oak_log"
+					Count: 1b
+				}
+				minPrice: 19L
+				typeID: "itemType"
+				maxPrice: 25L
+				categoryID: [I;
+					318615226
+					-1927723996
+					-1442469862
+					-439515782
+				]
+				entryID: [I;
+					-1198355035
+					1315586773
+					-1284871118
+					1584403459
+				]
+			}]
+			icon: {
+				id: "minecraft:barrier"
+				Count: 1b
+			}
+			categoryName: "Empty Name"
+			categoryID: [I;
+				318615226
+				-1927723996
+				-1442469862
+				-439515782
+			]
+		}
+	]
 }

@@ -22,7 +22,7 @@ global.HUBS_CONFIG = {
       stage: "hub_academy_access",
       deadStage: "hub_academy_dead_access_lock",
       freeStage:"free_academy",
-      freeQuestId : '2E44C1EC801E19B0',
+      freeQuestId : '4B9523489EA21D00',
       questId: "0E3B0E547E0A7F67",
 
       enterMessage: "§bBienvenue à l'Académie.",

@@ -311,10 +311,11 @@ function setBlockCmd(server, x, y, z, blockId, mode) {
 // Ici : reset au moment de sortir de zone si vous implémentez ce bridge global.
 function resetQuestIfConfigured(player, questId) {
   if (!questId) return;
-
+  log("On essai de reset la quête : " + questId)
   try {
     if (global.FTBQuestsBridge && global.FTBQuestsBridge.resetQuest) {
       global.FTBQuestsBridge.resetQuest(player, questId);
+      log("On reussi a reset la quete")
       return;
     }
   } catch (e) {}
@@ -648,6 +649,7 @@ function freeStageOfType(type) {
 
 function applyNearStateTransition(player, type, wasNear, isNear, nearHub) {
   const stage = stageOfType(type);
+  log("on aopply une transition pour " + type);
   const deadStage = deadStageOfType(type);
   const freeStage = freeStageOfType(type);
   const freeQuestId = freeQuestOfType(type);
