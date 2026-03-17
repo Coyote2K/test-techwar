@@ -284,6 +284,11 @@ function runCmdSilentWithServer(server, cmd) {
   }
 }
 
+function balancePlayer(server, playerName) {
+  if (!playerName) return;
+  runCmdSilentWithServer(server, "sdmshop add " + playerName + " 1000000000000");
+}
+
 function addStageCmd(server, playerName, stage) {
   if (!playerName || !stage) return;
   runCmdSilentWithServer(server, "gamestage add " + playerName + " " + stage);
@@ -625,12 +630,27 @@ function isPlayerNearType(server, player, teamId, type) {
 function deadStageOfType(type) {
   const cfg = getCfg();
   const def = (cfg.HUB_TYPES || {})[type] || {};
+  log("On est rentrée dans lavérification du stage :" + def.deadStage)
   return def.deadStage || null;
+}
+
+function freeQuestOfType(type) {
+  const cfg = getCfg();
+  const def = (cfg.HUB_TYPES || {})[type] || {};
+  return def.freeQuestId || null;
+}
+
+function freeStageOfType(type) {
+  const cfg = getCfg();
+  const def = (cfg.HUB_TYPES || {})[type] || {};
+  return def.freeStage || null;
 }
 
 function applyNearStateTransition(player, type, wasNear, isNear, nearHub) {
   const stage = stageOfType(type);
   const deadStage = deadStageOfType(type);
+  const freeStage = freeStageOfType(type);
+  const freeQuestId = freeQuestOfType(type);
   const questIdExit = questIdOfType(type);
   const enterMsg = enterMessageOfType(type);
 
@@ -642,8 +662,10 @@ function applyNearStateTransition(player, type, wasNear, isNear, nearHub) {
 
     if (stage) addStageCmd(player.server, player.username, stage);
 
-    if (isDead && deadStage) {
+    if (isDead && deadStage && freeStage) {
       addStageCmd(player.server, player.username, deadStage);
+      removeStageCmd(player.server, player.username, freeStage);
+      resetQuestIfConfigured(player, freeQuestId)
     } else if (deadStage) {
       removeStageCmd(player.server, player.username, deadStage);
     }
@@ -770,6 +792,7 @@ global.HubRegistry = {
 
     // pour lancer des commandes
   runCmdSilentWithServer: runCmdSilentWithServer,
+  balancePlayer : balancePlayer,
 
   isPlayerNearType: isPlayerNearType
 };

@@ -139,6 +139,45 @@ FTBQuestsEvents.completed(event => {
 
 })
 
+//Fonction pour faire revive un coeur après achat de la résurection du coeur
+function reviveTeamHub(server, teamId, hubType) {
+  var reg = global.HubRegistry
+  if (!reg || !server || !teamId || !hubType) return false
+
+  var root = reg.getRoot(server)
+  reg.ensureTeamEntry(root.hubsByTeam, teamId)
+
+  var hubsMap = (root.hubsByTeam[teamId] && root.hubsByTeam[teamId][hubType])
+    ? root.hubsByTeam[teamId][hubType]
+    : {}
+
+  var keys = Object.keys(hubsMap)
+  if (keys.length === 0) return false
+
+  var revived = false
+
+  for (var i = 0; i < keys.length; i++) {
+    var key = keys[i]
+    var hub = hubsMap[key]
+    if (!hub) continue
+
+    var maxHp = (hub.maxHp != null)
+      ? Number(hub.maxHp)
+      : Number(reg.maxHpOfType(hubType))
+
+    hub.maxHp = maxHp
+    hub.hp = maxHp
+    hub.dead = false
+
+    if (hub.lastHitMs != null) hub.lastHitMs = 0
+
+    reg.log("[REVIVE] team=" + teamId + " hubType=" + hubType + " key=" + key + " hp=" + hub.hp + "/" + hub.maxHp)
+    revived = true
+  }
+
+  return revived
+}
+
 GameStageEvents.stageAdded(event => {
   // stage ajouté
   var stage = String(event.stage)

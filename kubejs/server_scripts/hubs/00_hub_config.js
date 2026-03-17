@@ -21,6 +21,8 @@ global.HUBS_CONFIG = {
       blockId: "kubejs:base_heart_academy_bloc",
       stage: "hub_academy_access",
       deadStage: "hub_academy_dead_access_lock",
+      freeStage:"free_academy",
+      freeQuestId : '2E44C1EC801E19B0',
       questId: "0E3B0E547E0A7F67",
 
       enterMessage: "§bBienvenue à l'Académie.",
@@ -32,6 +34,7 @@ global.HUBS_CONFIG = {
       blockId: "kubejs:base_heart_factory_bloc",
       stage: "hub_factory_access",
       deadStage: "hub_factory_dead_access",
+      freeStage:"free_factory",
       questId: "60AD4B7AFB0B6270",
 
       enterMessage: "§6Bienvenue à l'Usine.",
@@ -43,6 +46,7 @@ global.HUBS_CONFIG = {
       blockId: "kubejs:base_heart_principal_bloc",
       stage: "hub_principal_access",
       deadStage: "hub_principal_dead_access",
+      freeStage:"free_principal",
       questId: "5D4A3EAE22F6C0C0",
 
       enterMessage: "§dBienvenue au Hub Principal.",

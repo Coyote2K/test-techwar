@@ -119,14 +119,23 @@
 			hide_details_until_startable: true
 			icon: "minecraft:totem_of_undying"
 			id: "5EEB30FFD9E38290"
-			rewards: [{
-				auto: "enabled"
-				command: "/gamestage add @p academy_revive"
-				icon: "minecraft:totem_of_undying"
-				id: "071232513713EFDE"
-				title: "Régénérer le Coeur"
-				type: "command"
-			}]
+			rewards: [
+				{
+					auto: "enabled"
+					command: "/gamestage add @p academy_revive"
+					icon: "minecraft:totem_of_undying"
+					id: "071232513713EFDE"
+					title: "Régénérer le Coeur"
+					type: "command"
+				}
+				{
+					auto: "enabled"
+					command: "/gamestage remove @p hub_academy_dead_access_lock"
+					icon: "minecraft:totem_of_undying"
+					id: "075CA7CEA36F45FC"
+					type: "command"
+				}
+			]
 			tasks: [
 				{
 					disable_toast: true
