@@ -198,6 +198,265 @@ function wipeAll(root) {
   return { ok: true, removed: removed, msg: "all wiped" };
 }
 
+// kubejs/server_scripts/hubs/20_hub_commands.js
+// priority: 20
+
+const StringArgumentType = Java.loadClass("com.mojang.brigadier.arguments.StringArgumentType");
+
+function _hubTell(source, text) {
+  if (!source || !text) return;
+
+  try {
+    if (source.player) {
+      source.player.tell(String(text));
+      return;
+    }
+  } catch (e) {}
+
+  try {
+    source.server.tell(String(text));
+  } catch (e2) {}
+}
+function _formatHubLine(type, key, hub) {
+  if (!hub) return "§7- " + type + " §8(invalide)";
+
+  var status = hub.dead ? "§4dead" : "§apvivant";
+  var prot = (String(hub.protectionState || "protected") === "not_protected")
+    ? "§cnot_protected"
+    : "§bprotected";
+
+  var hp = (hub.hp != null ? hub.hp : "?") + "/" + (hub.maxHp != null ? hub.maxHp : "?");
+
+  return "§7- §e" + type +
+    " §7key=§f" + key +
+    " §7dim=§f" + hub.dim +
+    " §7pos=§f" + hub.x + "," + hub.y + "," + hub.z +
+    " §7hp=§f" + hp +
+    " §7dead=§f" + hub.dead +
+    " §7protection=§f" + prot;
+}
+
+function _showHubListForTeam(source, server, teamId) {
+  if (!server || !teamId || !global.HubRegistry) {
+    _hubTell(source, "§cHubRegistry indisponible.");
+    return 0;
+  }
+
+  var reg = global.HubRegistry;
+  var root = reg.getRoot(server);
+
+  reg.ensureTeamEntry(root.hubsByTeam, String(teamId));
+
+  var teamData = root.hubsByTeam[String(teamId)];
+  if (!teamData) {
+    _hubTell(source, "§cAucune donnée trouvée pour l'équipe : " + teamId);
+    return 0;
+  }
+
+  var types = ["ACADEMY", "FACTORY", "PRINCIPAL"];
+  var count = 0;
+
+  _hubTell(source, "§6=== HUB LIST : teamId=" + teamId + " ===");
+
+  for (var i = 0; i < types.length; i++) {
+    var type = types[i];
+    var hubsMap = teamData[type] || {};
+    var keys = Object.keys(hubsMap);
+
+    _hubTell(source, "§e[" + type + "] §7count=§f" + keys.length);
+
+    for (var j = 0; j < keys.length; j++) {
+      var key = keys[j];
+      var hub = hubsMap[key];
+      _hubTell(source, _formatHubLine(type, key, hub));
+      count++;
+    }
+  }
+
+  if (count === 0) {
+    _hubTell(source, "§7Aucun hub enregistré pour cette équipe.");
+  }
+
+  return count;
+}
+
+ServerEvents.commandRegistry(event => {
+  const { commands: Commands } = event;
+
+  event.register(
+    Commands.literal("hublist")
+      .executes(ctx => {
+        var source = ctx.source;
+        var server = source.server;
+        var player = source.player;
+
+        if (!player) {
+          _hubTell(source, "§cCette commande doit être exécutée par un joueur, ou utilisez /hublist <teamId>.");
+          return 0;
+        }
+
+        if (!global.HubRegistry) {
+          _hubTell(source, "§cHubRegistry indisponible.");
+          return 0;
+        }
+
+        var teamId = String(global.HubRegistry.teamOf(server, player));
+        return _showHubListForTeam(source, server, teamId);
+      })
+      .then(
+        Commands.argument("teamId", StringArgumentType.word())
+          .requires(src => src.hasPermission(2))
+          .executes(ctx => {
+            var source = ctx.source;
+            var server = source.server;
+            var teamId = StringArgumentType.getString(ctx, "teamId");
+            return _showHubListForTeam(source, server, teamId);
+          })
+      )
+  );
+});
+
+
+// kubejs/server_scripts/hubs/21_roles_command.js
+// priority: 21
+
+function _rolesTell(source, text) {
+  if (!source || !text) return;
+
+  try {
+    var p = source.player;
+    if (p) {
+      p.tell(String(text));
+      return;
+    }
+  } catch (e) {}
+
+  try {
+    source.server.tell(String(text));
+  } catch (e2) {}
+}
+
+function romanRank(n) {
+  if (n === 1) return "I";
+  if (n === 2) return "II";
+  if (n === 3) return "III";
+  return "?";
+}
+
+function buildRoleDefinitions() {
+  return [
+    {
+      key: "ESPION",
+      stages: [
+        { stage: "espion_1", rank: 1, name: "Informateur" },
+        { stage: "espion_2", rank: 2, name: "Espion" },
+        { stage: "espion_3", rank: 3, name: "007" }
+      ]
+    },
+    {
+      key: "INGENIEUR",
+      stages: [
+        { stage: "ingenieur_1", rank: 1, name: "Ingénieur" },
+        { stage: "ingenieur_2", rank: 2, name: "Chef de production" },
+        { stage: "ingenieur_3", rank: 3, name: "Dr. Vegapunk" }
+      ]
+    },
+    {
+      key: "SOLDAT",
+      stages: [
+        { stage: "soldat_1", rank: 1, name: "Caporal" },
+        { stage: "soldat_2", rank: 2, name: "Lieutenant" },
+        { stage: "soldat_3", rank: 3, name: "Grand Général sous les Cieux" }
+      ]
+    },
+    {
+      key: "GAMBLER",
+      stages: [
+        { stage: "gambler_1", rank: 1, name: "Joueur de Poker" },
+        { stage: "gambler_2", rank: 2, name: "Accros du Casino" },
+        { stage: "gambler_3", rank: 3, name: "Compteur de cartes" }
+      ]
+    },
+    {
+      key: "DIPLOMATE",
+      stages: [
+        { stage: "diplomate_1", rank: 1, name: "Conseiller" },
+        { stage: "diplomate_2", rank: 2, name: "Stratège" },
+        { stage: "diplomate_3", rank: 3, name: "Chancelier" }
+      ]
+    }
+  ];
+}
+
+function getHighestOwnedRoleEntry(player, roleDef) {
+  if (!player || !roleDef || !roleDef.stages) return null;
+
+  var owned = null;
+
+  for (var i = 0; i < roleDef.stages.length; i++) {
+    var entry = roleDef.stages[i];
+    if (!entry || !entry.stage) continue;
+
+    if (player.stages.has(String(entry.stage))) {
+      if (owned == null || Number(entry.rank) > Number(owned.rank)) {
+        owned = entry;
+      }
+    }
+  }
+
+  return owned;
+}
+
+function showRolesForPlayer(source, player) {
+  if (!source || !player) return 0;
+
+  var defs = buildRoleDefinitions();
+  var found = 0;
+
+  _rolesTell(source, "§6=== Vos rôles ===");
+
+  for (var i = 0; i < defs.length; i++) {
+    var roleDef = defs[i];
+    var owned = getHighestOwnedRoleEntry(player, roleDef);
+
+    if (!owned) continue;
+
+    _rolesTell(
+      source,
+      "§eRole : §f" + roleDef.key +
+      " §eRang : §f" + romanRank(Number(owned.rank)) +
+      "§e, Nom : §f" + owned.name
+    );
+
+    found++;
+  }
+
+  if (found === 0) {
+    _rolesTell(source, "§7Vous n'avez actuellement aucun rôle.");
+  }
+
+  return found;
+}
+
+ServerEvents.commandRegistry(event => {
+  const { commands: Commands } = event;
+
+  event.register(
+    Commands.literal("roles")
+      .executes(ctx => {
+        var source = ctx.source;
+        var player = source.player;
+
+        if (!player) {
+          _rolesTell(source, "§cCette commande doit être exécutée par un joueur.");
+          return 0;
+        }
+
+        return showRolesForPlayer(source, player);
+      })
+  );
+});
+
 // --- Handler chat
 global.HubDebug.handle = function(event) {
   var player = event.player;
@@ -271,8 +530,9 @@ global.HubDebug.handle = function(event) {
   }
 
   // --- hublist
-  if (cmd === "hublist") {
+  if (cmd !== "hublist") {
     var total = 0;
+    player.tell("O nest bienrentrée dans la fonction hublist")
     
     for (var i = 0; i < typesToUse.length; i++) {
       var t = typesToUse[i];

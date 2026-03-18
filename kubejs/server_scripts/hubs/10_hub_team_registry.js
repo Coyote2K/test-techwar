@@ -665,6 +665,11 @@ function applyNearStateTransition(player, type, wasNear, isNear, nearHub) {
   const freeQuestId = freeQuestOfType(type);
   const questIdExit = questIdOfType(type);
   const enterMsg = enterMessageOfType(type);
+  //var isProtected = String(nearHub.protectionState || "protected") !== "not_protected";
+  //if (String(type) === "PRINCIPAL" && isProtected) {
+  //  player.tell("§bCe coeur est protégé.");
+  //  return;
+  //}
 
   const isDead = !!(nearHub && nearHub.dead);
 

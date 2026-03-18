@@ -180,9 +180,6 @@ function consumePrincipalStageAndUnlock(player, ownerTeamId) {
 
   consumeState[safeOwnerTeamId] = true;
 
-  var principalStage = buildKilledHubStage("principal", safeOwnerTeamId);
-  reg.removeStageCmd(server, player.username, principalStage);
-
   var attackerTeamId = String(reg.teamOf(server, player));
   var defenderTeamId = safeOwnerTeamId;
 
@@ -191,7 +188,7 @@ function consumePrincipalStageAndUnlock(player, ownerTeamId) {
     server,
     attackerTeamId,
     "§6PROTECTION BRISÉE",
-    "§cBraiche de 3H dans le Force Field ennemie !",
+    "§cBraiche de 3H dans le Force Field ennemie ",
     10, 70, 20
   );
 
@@ -247,6 +244,34 @@ log("ON RESTAUREE PROTECTION")
   return restored;
 }
 
+function removeAllKilledHubStagesForOwnerTeam(player, ownerTeamId) {
+  if (!player || !ownerTeamId || !global.HubRegistry) return 0;
+
+  var server = player.server;
+  if (!server) return 0;
+
+  var reg = global.HubRegistry;
+  var count = 0;
+
+  var stagesToRemove = [
+    buildKilledHubStage("academy", ownerTeamId),
+    buildKilledHubStage("factory", ownerTeamId),
+    buildKilledHubStage("principal", ownerTeamId)
+  ];
+
+  for (var i = 0; i < stagesToRemove.length; i++) {
+    var stage = stagesToRemove[i];
+    if (!stage) continue;
+
+    if (player.stages.has(stage)) {
+      reg.removeStageCmd(server, player.username, stage);
+      count++;
+    }
+  }
+
+  return count;
+}
+
 GameStageEvents.stageAdded(event => {
   var player = event.entity;
   if (!player) return;
@@ -256,12 +281,18 @@ GameStageEvents.stageAdded(event => {
   // 1) Si le joueur reçoit academy/factory, on vérifie si principal doit être donné
   maybeGrantPrincipalStage(player, stage);
 
-  // 2) Si le joueur reçoit principal, on consomme le stage et on déprotège le coeur principal
+  // 2) On parse le stage reçu
   var parsed = parseKilledHubStage(stage);
   if (!parsed) return;
 
+  // 3) Si le stage principal vient d'être ajouté, on déclenche l'ouverture
   if (parsed.hubType === "principal") {
-    consumePrincipalStageAndUnlock(player, parsed.ownerTeamId);
+    var ok = consumePrincipalStageAndUnlock(player, parsed.ownerTeamId);
+
+    // 4) Si l'ouverture a bien été faite, on nettoie tous les stages liés à ce même ownerTeamId
+    if (ok) {
+      removeAllKilledHubStagesForOwnerTeam(player, parsed.ownerTeamId);
+    }
   }
 });
 

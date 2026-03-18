@@ -139,7 +139,7 @@ key_key.mekanism.description:key.keyboard.n:SHIFT
 key_key.mekanism.module_tweaker:key.keyboard.backslash
 key_key.mekanism.key_boost:key.keyboard.left.control
 key_key.mekanism.key_hud:key.keyboard.h
-soundCategory_master:0.0
+soundCategory_master:0.6823468543046358
 soundCategory_music:0.0
 soundCategory_record:1.0
 soundCategory_weather:1.0
