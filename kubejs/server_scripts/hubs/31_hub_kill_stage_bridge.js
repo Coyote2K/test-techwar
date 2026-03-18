@@ -1,6 +1,18 @@
 // kubejs/server_scripts/hubs/31_hub_kill_stage_bridge.js
 // priority: 31
 
+const PRINCIPAL_BREACH_DURATION_MS = 3 * 60 * 60 * 1000;
+
+function log(msg) {
+  try {
+    if (global.HubRegistry && global.HubRegistry.log) {
+      global.HubRegistry.log(String(msg));
+      return;
+    }
+  } catch (e) {}
+  console.log("[HUBS] " + String(msg));
+}
+
 
 ///====================================================
 /// UTILITAIRE GOLD DESTRUCTION COEUR
@@ -223,7 +235,7 @@ function consumePrincipalStageAndUnlock(player, ownerTeamId) {
     return false;
   }
 
-  var ok = unlockPrincipalHeartForOwnerTeam(server, safeOwnerTeamId, 60000);
+  var ok = unlockPrincipalHeartForOwnerTeam(server, safeOwnerTeamId, PRINCIPAL_BREACH_DURATION_MS);
   if (!ok) return false;
 
   consumeState[safeOwnerTeamId] = true;
@@ -249,13 +261,12 @@ function consumePrincipalStageAndUnlock(player, ownerTeamId) {
     10, 70, 20
   );
 
-  player.tell("§dLe coeur principal ennemi n'est plus protégé pendant 1 minute.");
+  player.tell("§dLe coeur principal ennemi n'est plus protégé pendant 3 heures.");
   return true;
 }
 
 function restoreExpiredPrincipalProtections(server) {
   if (!server || !global.HubRegistry) return 0;
-log("ON RESTAUREE PROTECTION")
   var reg = global.HubRegistry;
   var root = reg.getRoot(server);
   var hubsByTeam = root.hubsByTeam || {};

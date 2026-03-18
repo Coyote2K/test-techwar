@@ -142,7 +142,7 @@ function isPrincipalHubProtected(hub) {
 // =========================
 // STOCKAGE PERSISTANT
 // =========================
-// server.persistentData.__HUBS__ = { hubsByTeam, playerTeam, nearState, tickCounter }
+// server.persistentData.__HUBS__ = { hubsByTeam, playerTeam, nearState, tickCounter, productionLocks }
 function getRoot(server) {
   if (!server.persistentData.__HUBS__) server.persistentData.__HUBS__ = {};
   const r = server.persistentData.__HUBS__;
@@ -152,6 +152,7 @@ function getRoot(server) {
   if (!r.nearState)  r.nearState  = {};
   if (!r.hubIndexByPos) r.hubIndexByPos = {};
   if (!r.teamMode) r.teamMode = {};  
+  if (!r.productionLocks) r.productionLocks = {};
   if (r.tickCounter == null) r.tickCounter = 0;
   return r;
 }
@@ -179,6 +180,66 @@ function ensurePlayerNearEntry(nearState, playerUuid) {
     if (nearState[playerUuid][t] == null) nearState[playerUuid][t] = false;
   }
 }
+
+function ensureProductionEntry(root, teamId) {
+  if (!root.productionLocks) root.productionLocks = {};
+  if (!root.productionLocks[teamId]) root.productionLocks[teamId] = {};
+}
+
+function setProductionLock(server, teamId, type, locked) {
+  if (!server || !teamId || !type) return;
+  const root = getRoot(server);
+  const tid = asStr(teamId);
+  const t = asStr(type);
+  ensureProductionEntry(root, tid);
+  root.productionLocks[tid][t] = !!locked;
+}
+
+function isProductionLocked(server, teamId, type) {
+  if (!server || !teamId || !type) return false;
+  const root = getRoot(server);
+  const tid = asStr(teamId);
+  const t = asStr(type);
+  ensureProductionEntry(root, tid);
+  return !!root.productionLocks[tid][t];
+}
+
+GameStageEvents.stageRemoved(event => {
+  const p = event.entity;
+  if (!p || !p.server) return;
+
+  const stage = asStr(event.stage);
+  const server = p.server;
+  const teamId = teamOf(server, p);
+  const types = typesList();
+
+  for (let i = 0; i < types.length; i++) {
+    const type = types[i];
+    const freeStage = freeStageOfType(type);
+    if (!freeStage || stage !== freeStage) continue;
+
+    if (isPlayerNearType(server, p, teamId, type)) {
+      setProductionLock(server, teamId, type, true);
+    }
+  }
+});
+
+GameStageEvents.stageAdded(event => {
+  const p = event.entity;
+  if (!p || !p.server) return;
+
+  const stage = asStr(event.stage);
+  const server = p.server;
+  const teamId = teamOf(server, p);
+  const types = typesList();
+
+  for (let i = 0; i < types.length; i++) {
+    const type = types[i];
+    const freeStage = freeStageOfType(type);
+    if (!freeStage || stage !== freeStage) continue;
+    setProductionLock(server, teamId, type, false);
+  }
+});
 
 // =========================
 // TEAM CACHE UPDATE + RESET
@@ -296,6 +357,12 @@ function runCmdSilentWithServer(server, cmd) {
   }
 }
 
+function openQuestBookIdOfType(type) {
+  const cfg = getCfg();
+  const def = (cfg.HUB_TYPES || {})[type] || {};
+  return def.openQuestBookId || null;
+}
+
 function balancePlayer(server, playerName) {
   if (!playerName) return;
   runCmdSilentWithServer(server, "sdmshop add " + playerName + " 1000000000000");
@@ -348,9 +415,7 @@ function resetQuestIfConfigured(player, questId) {
 // =========================
 // UTILITAIRES SUR HUB_TYPES (CONFIG)
 // =========================
-
 function getTeamMode(root, teamId) {
-  log("On check bien le team mode " + root.teamMode[teamId])
   return root.teamMode[teamId] ? root.teamMode[teamId] : "prod"
 }
 
@@ -512,7 +577,7 @@ function registerHub(server, teamId, type, dim, x, y, z) {
     maxHp: maxHp,
     dead: false
   }
-  root.teamMode[teamId] = "dev"  // ou "prod";
+  if (!root.teamMode[teamId]) root.teamMode[teamId] = "PROD";
 
   log("REGISTER team=" + teamId + " type=" + type + " at " + k + " hp=" + maxHp);
 }
@@ -652,7 +717,6 @@ function isPlayerNearType(server, player, teamId, type) {
 function deadStageOfType(type) {
   const cfg = getCfg();
   const def = (cfg.HUB_TYPES || {})[type] || {};
-  log("On est rentrée dans lavérification du stage :" + def.deadStage)
   return def.deadStage || null;
 }
 
@@ -668,12 +732,10 @@ function freeStageOfType(type) {
   return def.freeStage || null;
 }
 
-function applyNearStateTransition(player, type, wasNear, isNear, nearHub) {
+function applyNearStateTransition(player, teamId, type, wasNear, isNear, nearHub) {
   const stage = stageOfType(type);
-  log("on aopply une transition pour " + type);
   const deadStage = deadStageOfType(type);
   const freeStage = freeStageOfType(type);
-  log("free stage " + freeStage);
   const freeQuestId = freeQuestOfType(type);
   const questIdExit = questIdOfType(type);
   const enterMsg = enterMessageOfType(type);
@@ -688,7 +750,9 @@ function applyNearStateTransition(player, type, wasNear, isNear, nearHub) {
     if (enterMsg) player.tell(asStr(enterMsg));
 
     if (stage) addStageCmd(player.server, player.username, stage);
-    if (freeStage) addStageCmd(player.server, player.username, freeStage);
+    if (freeStage && !isProductionLocked(player.server, teamId, type)) {
+      addStageCmd(player.server, player.username, freeStage);
+    }
 
     if (isDead && deadStage && freeStage) {
       addStageCmd(player.server, player.username, deadStage);
@@ -782,7 +846,6 @@ ServerEvents.tick(event => {
   const tickPeriod = Number(cfg.TICK_PERIOD != null ? cfg.TICK_PERIOD : 20);
   if ((root.tickCounter % tickPeriod) !== 0) return;
 
-  log("Tick start");
 
   const players = server.players;
   if (!players) return;
@@ -809,11 +872,10 @@ ServerEvents.tick(event => {
       var nearHub = getNearbyHubOfType(server, p, teamNow, type);
       var isNear = nearHub != null;
 
-      applyNearStateTransition(p, type, wasNear, isNear, nearHub);
+      applyNearStateTransition(p, teamNow, type, wasNear, isNear, nearHub);
       root.nearState[uuid][type] = isNear;
           }
   }
-  log("Tick end");
 });
 
 
@@ -830,6 +892,8 @@ global.HubRegistry = {
   // registry / storage
   getRoot: getRoot,
   ensureTeamEntry: ensureTeamEntry,
+  setProductionLock: setProductionLock,
+  isProductionLocked: isProductionLocked,
 
   // hub identification
   isHubBlockId: isHubBlockId,
@@ -853,5 +917,6 @@ global.HubRegistry = {
   addPointXP: addPointXP,
   playSoundXP : playSoundXP,
 
-  isPlayerNearType: isPlayerNearType
+  isPlayerNearType: isPlayerNearType,
+  openQuestBookIdOfType: openQuestBookIdOfType
 };

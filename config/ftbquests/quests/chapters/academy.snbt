@@ -62,21 +62,32 @@
 				value: 500L
 			}]
 			title: "Acheter des HP"
-			x: 5.5d
-			y: 0.0d
+			x: 4.0d
+			y: -2.5d
 		}
 		{
 			can_repeat: true
 			dependencies: ["0E3B0E547E0A7F67"]
-			icon: "alexsmobs:soul_heart"
+			icon: "minecraft:beacon"
 			id: "3724D0F008739A84"
+			rewards: [{
+				auto: "enabled"
+				command: "/gamestage add @p factory_shield"
+				icon: "minecraft:beacon"
+				id: "6CD399B65A73424F"
+				silent: true
+				title: "Bouclier"
+				type: "command"
+			}]
 			tasks: [{
-				id: "2A80A4BF80E308FC"
-				type: "custom"
+				id: "56C1566407BDAB40"
+				money_id: "sdm_coin"
+				type: "sdmshop:money"
+				value: 240L
 			}]
 			title: "Bouclier"
-			x: 4.5d
-			y: -2.0d
+			x: 4.0d
+			y: 0.5d
 		}
 		{
 			can_repeat: true

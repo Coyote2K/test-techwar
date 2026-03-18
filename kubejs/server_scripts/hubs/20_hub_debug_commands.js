@@ -100,7 +100,7 @@ function hubsToArray(hubsContainer) {
   var jsKeys = listKeys(hubsContainer);
   for (var j = 0; j < jsKeys.length; j++) {
     var key = jsKeys[j];
-    var h = hubsContainer[key];supprimé
+    var h = hubsContainer[key];
     if (h) arr.push(h);
   }
   return arr;
@@ -530,7 +530,7 @@ global.HubDebug.handle = function(event) {
   }
 
   // --- hublist
-  if (cmd !== "hublist") {
+  if (cmd === "hublist") {
     var total = 0;
     player.tell("O nest bienrentrée dans la fonction hublist")
     

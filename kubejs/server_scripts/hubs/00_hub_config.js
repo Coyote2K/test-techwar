@@ -12,7 +12,7 @@ global.HUBS_PRINCIPAL_STRUCTURE = [
 ];
 
 global.HUBS_CONFIG = {
-  DEBUG: true,
+  DEBUG: false,
   DEBUG_PREFIX: "[HUBS]",
   RADIUS: 12,
 
@@ -24,12 +24,11 @@ global.HUBS_CONFIG = {
       freeStage: "free_academy",
       freeQuestId: "4B9523489EA21D00",
       questId: "0E3B0E547E0A7F67",
+      openQuestBookId: "0E3B0E547E0A7F67",
 
       enterMessage: "§bBienvenue à l'Académie.",
       exitMessage: "§7Vous quittez l'Académie.",
-      maxHp: 200,
-
-      killerTeamStageOnDeath: "enemy_academy_destroyed"
+      maxHp: 200
     },
 
     FACTORY: {
@@ -39,12 +38,11 @@ global.HUBS_CONFIG = {
       freeStage: "free_factory",
       freeQuestId: "0369725DB598EE89",
       questId: "60AD4B7AFB0B6270",
+      openQuestBookId: "60AD4B7AFB0B6270",
 
       enterMessage: "§6Bienvenue à l'Usine.",
       exitMessage: "§7Vous quittez l'Usine.",
-      maxHp: 200,
-
-      killerTeamStageOnDeath: "enemy_factory_destroyed"
+      maxHp: 200
     },
 
     PRINCIPAL: {
@@ -53,12 +51,11 @@ global.HUBS_CONFIG = {
       deadStage: "hub_principal_dead_access",
       freeStage: "free_principal",
       questId: "5D4A3EAE22F6C0C0",
+      openQuestBookId: "5D4A3EAE22F6C0C0",
 
       enterMessage: "§dBienvenue au Hub Principal.",
       exitMessage: "§7Vous quittez le Hub Principal.",
-      maxHp: 200,
-
-      killerTeamStageOnDeath: "enemy_principal_destroyed"
+      maxHp: 200
     }
   }
 };

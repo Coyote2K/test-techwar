@@ -26,9 +26,12 @@
 			ignore_reward_blocking: true
 			invisible: true
 			size: 1.5d
+			subtitle: "Vous accedez à la Base Principale"
 			tasks: [{
+				icon: "kubejs:base_heart_principal_bloc"
 				id: "189DB4DA5CA282C1"
 				stage: "hub_principal_access"
+				title: "Accedez à la Base Principale"
 				type: "gamestage"
 			}]
 			title: "Allez à vôtre base principale"

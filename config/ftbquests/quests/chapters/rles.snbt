@@ -238,12 +238,26 @@
 			dependencies: ["6E4B04799C34CA43"]
 			icon: "minecraft:book"
 			id: "0CE250D52E1AFC24"
-			rewards: [{
-				auto: "enabled"
-				command: "/gamestage add @p diplomatie_1"
-				id: "31D53EC0296573A7"
-				type: "command"
-			}]
+			rewards: [
+				{
+					auto: "enabled"
+					command: "/gamestage add @p diplomate_1"
+					icon: "minecraft:writable_book"
+					id: "31D53EC0296573A7"
+					silent: true
+					title: "Diplomatie I"
+					type: "command"
+				}
+				{
+					auto: "enabled"
+					command: "/tellraw @p [{\"text\":\"═════════════════════════════\\n\",\"color\":\"gold\"},{\"text\":\"   Vous devenez Diplomate (rang I)\\n\",\"color\":\"gold\"},{\"text\":\"   Retrouvez la liste de vos rôles avec /roles !\\n\",\"color\":\"gold\"},{\"text\":\"═════════════════════════════\",\"color\":\"gold\"}]"
+					icon: "minecraft:writable_book"
+					id: "779E6695DFE42469"
+					silent: true
+					title: "Diplomatie I"
+					type: "command"
+				}
+			]
 			shape: "diamond"
 			size: 1.5d
 			tasks: [{
@@ -263,7 +277,8 @@
 			ignore_reward_blocking: true
 			rewards: [{
 				auto: "enabled"
-				command: "/gamestage add @p diplomatie_2"
+				command: "/gamestage add @p diplomate_2"
+				icon: "minecraft:writable_book"
 				id: "2CDD1F6F20A8F807"
 				silent: true
 				title: "Diplomate II"
@@ -286,26 +301,48 @@
 			dependency_requirement: "one_completed"
 			icon: "dustydecorations:bookstack"
 			id: "3820B9D37550BCA3"
+			rewards: [{
+				command: "/gamestage add @p diplomate_3"
+				icon: "minecraft:writable_book"
+				id: "28A4B241A98DAD7D"
+				title: "Diplomatie III"
+				type: "command"
+			}]
 			shape: "octagon"
 			size: 1.5d
 			tasks: [{
-				id: "19A15891234FFA52"
-				type: "custom"
+				id: "483A684B2D1F210D"
+				money_id: "sdm_coin"
+				type: "sdmshop:money"
+				value: 20000L
 			}]
 			title: "Diplomate III : Chancelier"
 			x: -12.0d
 			y: 3.0d
 		}
 		{
+			can_repeat: true
 			dependencies: ["0CE250D52E1AFC24"]
-			icon: "securitycraft:universal_block_modifier"
+			icon: {
+				Count: 1
+				id: "minecraft:netherite_pickaxe"
+				tag: {
+					Damage: 0
+				}
+			}
 			id: "0E6958341D650361"
 			rewards: [{
 				auto: "enabled"
 				command: "/gamestage add @p mod_dev"
-				icon: "securitycraft:universal_block_modifier"
+				icon: {
+					Count: 1
+					id: "minecraft:netherite_pickaxe"
+					tag: {
+						Damage: 0
+					}
+				}
 				id: "5478A229A86D7F90"
-				ignore_reward_blocking: true
+				silent: true
 				title: "Passez vôtre base en MODE : DEVELOPPEMENT"
 				type: "command"
 			}]
@@ -322,14 +359,27 @@
 		{
 			can_repeat: true
 			dependencies: ["0CE250D52E1AFC24"]
-			icon: "born_in_chaos_v1:spawn_structures_farm"
+			icon: {
+				Count: 1
+				id: "minecraft:shield"
+				tag: {
+					Damage: 0
+				}
+			}
 			id: "59E768466615B10B"
 			rewards: [{
 				auto: "enabled"
 				command: "/gamestage add @p mod_def"
-				icon: "born_in_chaos_v1:spawn_structures_firewell"
+				icon: {
+					Count: 1
+					id: "minecraft:shield"
+					tag: {
+						Damage: 0
+					}
+				}
 				id: "5328961DC696FB0D"
-				title: "Passez vôtre baseen MODE : DEFENSE"
+				silent: true
+				title: "Passez vôtre base en MODE : DEFENSE"
 				type: "command"
 			}]
 			tasks: [{
@@ -348,7 +398,7 @@
 			dependencies: ["0CE250D52E1AFC24"]
 			icon: {
 				Count: 1
-				id: "dixtas_armory:netherite_battle_axe"
+				id: "minecraft:netherite_sword"
 				tag: {
 					Damage: 0
 				}
@@ -356,15 +406,17 @@
 			id: "40960CE61CE599B4"
 			ignore_reward_blocking: true
 			rewards: [{
-				command: "/gamestage add @p mod_att"
+				auto: "enabled"
+				command: "/gamestage add @p mod_atq"
 				icon: {
 					Count: 1
-					id: "dixtas_armory:netherite_battle_axe"
+					id: "minecraft:netherite_sword"
 					tag: {
 						Damage: 0
 					}
 				}
 				id: "312A907888B6FC31"
+				silent: true
 				title: "Passer vôtre base en MODE : ATTAQUE"
 				type: "command"
 			}]
@@ -600,17 +652,34 @@
 			dependencies: ["6E4B04799C34CA43"]
 			icon: {
 				Count: 1
-				id: "dixtas_armory:iron_longsword"
+				id: "minecraft:iron_sword"
 				tag: {
 					Damage: 0
 				}
 			}
 			id: "600B0576DD28A43E"
+			rewards: [{
+				auto: "enabled"
+				command: "/gamestage add @p soldat_1"
+				icon: {
+					Count: 1
+					id: "minecraft:iron_sword"
+					tag: {
+						Damage: 0
+					}
+				}
+				id: "254BC6A26DFEF4D7"
+				silent: true
+				title: "Soldat I"
+				type: "command"
+			}]
 			shape: "diamond"
 			size: 1.5d
 			tasks: [{
-				id: "261919808292B0B9"
-				type: "custom"
+				id: "2ED20B7105C17F4F"
+				money_id: "sdm_coin"
+				type: "sdmshop:money"
+				value: 3000L
 			}]
 			title: "Soldat I : Caporal"
 			x: 7.5d

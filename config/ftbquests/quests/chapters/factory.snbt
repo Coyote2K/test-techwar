@@ -25,9 +25,12 @@
 			id: "60AD4B7AFB0B6270"
 			invisible: true
 			size: 1.5d
+			subtitle: "Vous accedez à la Factory"
 			tasks: [{
+				icon: "kubejs:base_heart_factory_bloc"
 				id: "23D379AD86BC4DD5"
 				stage: "hub_factory_access"
+				title: "Accedez à la Factory"
 				type: "gamestage"
 			}]
 			title: "Allez à la Factory"
@@ -114,8 +117,9 @@
 			rewards: [{
 				auto: "enabled"
 				command: "/gamestage add @p factory_shield"
-				icon: "alexsmobs:soul_heart"
+				icon: "minecraft:beacon"
 				id: "63214F12AAD10C0C"
+				silent: true
 				title: "Factory : Bouclier"
 				type: "command"
 			}]

@@ -219,37 +219,7 @@ function startPaidGamblerRun(player) {
   return true
 }
 
-global.HubDebug.handle = function(event) {
-  var player = event.player
-  if (!player) return
-
-  var msg = S(event.message || "").trim()
-  if (!msg || msg.charAt(0) !== "!") return
-
-  try { event.cancel() } catch (e0) {}
-
-  var parts = msg.substring(1).split(/\s+/)
-  var cmd = (parts[0] || "").toLowerCase()
-
-  if (cmd !== "balance" && cmd !== "hublist" && cmd !== "hubnear" && cmd !== "hubdist" && cmd !== "hubwipe" && cmd !== "hubwipeall") return
-
-  var server = event.server || player.server
-  var cfg = global.HubDebug.getCfg()
-  var root = global.HubDebug.getRoot(server)
-
-  var teamName = teamOf(event.server, player)
-  var playerDim = S(player.level.dimension)
-  var radius = Number(cfg.RADIUS != null ? cfg.RADIUS : 12)
-
-  var typeKeys = Object.keys(cfg.HUB_TYPES || {})
-  var typesToUse = (typeKeys.length > 0) ? typeKeys : ["ACADEMY", "FACTORY", "PRINCIPAL"]
-
-  player.tell("§6[HUB DEBUG] §fcmd=!" + cmd + " §7team=§f" + teamName + " §7dim=§f" + global.HubDebug.fmtDim(playerDim) + " §7R=§f" + radius)
-
-  if (cmd == "balance") {
-
-  }
-}
+// Important: ne pas ecraser global.HubDebug.handle (defini dans les scripts hubs).
 
 ServerEvents.commandRegistry(event => {
   event.register(
