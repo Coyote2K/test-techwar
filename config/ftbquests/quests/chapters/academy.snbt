@@ -27,11 +27,14 @@
 			ignore_reward_blocking: true
 			invisible: true
 			size: 1.5d
+			subtitle: "Vous entrez dans l'Academy"
 			tasks: [{
+				disable_toast: true
+				icon: "kubejs:base_heart_academy_bloc"
 				id: "1EA0B41DFFE70BE2"
 				stage: "hub_academy_access"
 				tags: ["hub_academy_access"]
-				title: "hub_academy_access"
+				title: "Accedez à l'Academy"
 				type: "gamestage"
 			}]
 			title: "Allez à l'Academy"
@@ -39,13 +42,24 @@
 			y: -1.5d
 		}
 		{
+			can_repeat: true
 			dependencies: ["0E3B0E547E0A7F67"]
-			icon: "born_in_chaos_v1:chocolate_heart"
+			icon: "minecraft:soul_lantern"
 			id: "1A309F7C868235E1"
+			rewards: [{
+				auto: "enabled"
+				command: "/gamestage add @p add_hp_academy"
+				icon: "minecraft:soul_lantern"
+				id: "48464F08B68E18D6"
+				silent: true
+				title: "Ganer 50 HP MAX sur ce Coeur"
+				type: "command"
+			}]
 			tasks: [{
-				id: "2C8584C15C7A7757"
-				item: "minecraft:oak_log"
-				type: "item"
+				id: "692CFC7B7615D728"
+				money_id: "sdm_coin"
+				type: "sdmshop:money"
+				value: 500L
 			}]
 			title: "Acheter des HP"
 			x: 5.5d

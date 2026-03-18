@@ -1,6 +1,42 @@
 // kubejs/server_scripts/hubs/31_hub_kill_stage_bridge.js
 // priority: 31
 
+
+///====================================================
+/// UTILITAIRE GOLD DESTRUCTION COEUR
+///====================================================
+
+function rewardPlayerIfMissingFinalStage(player, stageToRemove) {
+  if (!player || !stageToRemove || !global.HubRegistry) return false;
+
+  var server = player.server;
+  if (!server) return false;
+
+  var reg = global.HubRegistry;
+
+  // Retire le stage reçu
+  reg.removeStageCmd(server, player.username, stageToRemove);
+
+  // Donne 1000 golds
+  var okMoney = false;
+  try {
+    if (global.GamblerEconomy && global.GamblerEconomy.addPlayerMoney) {
+      reg.runCmdSilentWithServer(server, "sdmshop add " + player.username + " 1000")
+      player.tell("On a ok money : + " + okMoney)
+    }
+  } catch (e) {
+    reg.log("[HUB STAGE REWARD] Erreur addPlayerMoney: " + e);
+    player.tell("§6Vous n'avez pas le stage final. §cLe stage a été retiré, mais le versement des 1000 golds a échoué.");
+  }
+
+    player.tell("§6Vous n'avez pas le stage final. §aLe stage a été retiré et vous recevez §e1000 golds§a.");
+    
+
+  return true;
+}
+
+
+
 function sanitizeStagePart(s) {
   return String(s || "").toLowerCase().replace(/[^a-z0-9_./-]/g, "_");
 }
@@ -76,15 +112,27 @@ function maybeGrantPrincipalStage(player, stageJustAdded) {
     return false;
   }
 
+  var server = player.server;
+  if (!server || !global.HubRegistry) return false;
+
+  var reg = global.HubRegistry;
+
+  // =====================================================
+  // NOUVELLE REGLE :
+  // si le joueur n'a pas le stage "final",
+  // on retire le stage reçu et on lui donne 1000 golds
+  // =====================================================
+  if (!player.stages.has("final")) {
+    rewardPlayerIfMissingFinalStage(player, stageJustAdded);
+    return false;
+  }
+
   var otherStage = buildKilledHubStage(otherType, ownerTeamId);
   var principalStage = buildKilledHubStage("principal", ownerTeamId);
 
   if (player.stages.has(principalStage)) return false;
 
-  var server = player.server;
-  if (!server || !global.HubRegistry) return false;
-
-  var root = global.HubRegistry.getRoot(server);
+  var root = reg.getRoot(server);
   var consumeState = getOrCreatePrincipalConsumeState(root);
 
   // Si déjà consommé pour cette équipe, on ne redonne plus ce stage
@@ -93,7 +141,7 @@ function maybeGrantPrincipalStage(player, stageJustAdded) {
   }
 
   if (player.stages.has(otherStage)) {
-    global.HubRegistry.addStageCmd(server, player.username, principalStage);
+    reg.addStageCmd(server, player.username, principalStage);
     player.tell("§dVous avez validé Academy + Factory pour cette équipe. Stage Principal accordé.");
     return true;
   }

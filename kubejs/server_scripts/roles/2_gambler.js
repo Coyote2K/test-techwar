@@ -124,12 +124,28 @@ function getPlayerSdmcCoinAccess(player) {
 }
 
 function addPlayerMoney(player, amount) {
-  if (!player || !EconomyAPI) return false
-  if (amount <= 0) return false
+  if (!player) {
+    console.error("[GAMBLER] addPlayerMoney: player null")
+    return false
+  }
+
+  if (!EconomyAPI) {
+    console.error("[GAMBLER] addPlayerMoney: EconomyAPI null")
+    return false
+  }
+
+  if (amount <= 0) {
+    console.error("[GAMBLER] addPlayerMoney: amount invalide = " + amount)
+    return false
+  }
 
   try {
     let access = getPlayerSdmcCoinAccess(player)
-    if (!access) return false
+
+    if (!access) {
+      console.error("[GAMBLER] addPlayerMoney: getPlayerSdmcCoinAccess a renvoyé null pour " + player.username)
+      return false
+    }
 
     let newBalance = access.balance + amount
     access.balanceField.set(access.playerCurrency, newBalance)
@@ -137,6 +153,7 @@ function addPlayerMoney(player, amount) {
     EconomyAPI.syncCurrencyData(player)
     EconomyAPI.savePlayerData(player.server)
 
+    console.info("[GAMBLER] addPlayerMoney OK player=" + player.username + " amount=" + amount + " newBalance=" + newBalance)
     return true
   } catch (e) {
     console.error("[GAMBLER] Erreur addPlayerMoney : " + e)
@@ -1031,3 +1048,8 @@ PlayerEvents.chat(event => {
   launchGamblerDeathWheel(player, targetPlayer)
   event.cancel()
 })
+
+global.GamblerEconomy = global.GamblerEconomy || {};
+
+global.GamblerEconomy.addPlayerMoney = addPlayerMoney;
+global.GamblerEconomy.tryTakePlayerMoney = tryTakePlayerMoney;

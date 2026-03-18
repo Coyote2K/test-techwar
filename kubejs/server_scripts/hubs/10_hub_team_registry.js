@@ -10,6 +10,7 @@
 // ----- HYPERPARAMS -----
 const ENERGY_CUBE_REL = { dx: 1, dy: -3, dz: 0 };   // ex: cube juste au-dessus -> {dx:0,dy:1,dz:0}
 const ENERGY_STORED   = "53000";
+const HUB_PRINCIPAL_PROTECTED_STAGE = "hub_principal_protected";
 
 // =========================
 // FTB Teams
@@ -126,6 +127,17 @@ function distSq(ax, ay, az, bx, by, bz) {
   return dx*dx + dy*dy + dz*dz;
 }
 
+function isPrincipalHubProtected(hub) {
+  if (!hub) return true;
+
+  // Priorité au booléen si présent
+  if (hub.protected != null) {
+    return String(hub.protected) === "true";
+  }
+
+  // Fallback sur l'état texte
+  return String(hub.protectionState || "protected") !== "not_protected";
+}
 
 // =========================
 // STOCKAGE PERSISTANT
@@ -661,17 +673,15 @@ function applyNearStateTransition(player, type, wasNear, isNear, nearHub) {
   log("on aopply une transition pour " + type);
   const deadStage = deadStageOfType(type);
   const freeStage = freeStageOfType(type);
-  log('free stage ' + freeStage)
+  log("free stage " + freeStage);
   const freeQuestId = freeQuestOfType(type);
   const questIdExit = questIdOfType(type);
   const enterMsg = enterMessageOfType(type);
-  //var isProtected = String(nearHub.protectionState || "protected") !== "not_protected";
-  //if (String(type) === "PRINCIPAL" && isProtected) {
-  //  player.tell("§bCe coeur est protégé.");
-  //  return;
-  //}
 
   const isDead = !!(nearHub && nearHub.dead);
+  const isProtected = (String(type) === "PRINCIPAL" && nearHub)
+    ? isPrincipalHubProtected(nearHub)
+    : false;
 
   // Entrée dans la zone
   if (!wasNear && isNear) {
@@ -679,15 +689,36 @@ function applyNearStateTransition(player, type, wasNear, isNear, nearHub) {
 
     if (stage) addStageCmd(player.server, player.username, stage);
     if (freeStage) addStageCmd(player.server, player.username, freeStage);
+
     if (isDead && deadStage && freeStage) {
       addStageCmd(player.server, player.username, deadStage);
       removeStageCmd(player.server, player.username, freeStage);
-      resetQuestIfConfigured(player, freeQuestId)
+      resetQuestIfConfigured(player, freeQuestId);
     } else if (deadStage) {
       removeStageCmd(player.server, player.username, deadStage);
     }
 
-    log("ENTER type=" + type + " stage=" + stage + " deadStage=" + deadStage + " isDead=" + isDead);
+    // AJOUT : si le joueur entre dans le hub PRINCIPAL
+    // et que le coeur est protégé, on lui donne le stage dédié
+    if (String(type) === "PRINCIPAL") {
+      if (isProtected) {
+        addStageCmd(player.server, player.username, HUB_PRINCIPAL_PROTECTED_STAGE);
+      } else {
+        removeStageCmd(player.server, player.username, HUB_PRINCIPAL_PROTECTED_STAGE);
+      }
+    }
+
+    log("ENTER type=" + type + " stage=" + stage + " deadStage=" + deadStage + " isDead=" + isDead + " isProtected=" + isProtected);
+  }
+
+  // Cas spécial : le joueur est déjà dans la zone du PRINCIPAL
+  // et l'état de protection peut changer pendant qu'il reste dedans
+  if (wasNear && isNear && String(type) === "PRINCIPAL") {
+    if (isProtected) {
+      addStageCmd(player.server, player.username, HUB_PRINCIPAL_PROTECTED_STAGE);
+    } else {
+      removeStageCmd(player.server, player.username, HUB_PRINCIPAL_PROTECTED_STAGE);
+    }
   }
 
   // Sortie de zone
@@ -699,7 +730,13 @@ function applyNearStateTransition(player, type, wasNear, isNear, nearHub) {
     if (deadStage) removeStageCmd(player.server, player.username, deadStage);
     if (stage) removeStageCmd(player.server, player.username, freeStage);
 
+    // AJOUT : on retire aussi le stage de protection du principal à la sortie
+    if (String(type) === "PRINCIPAL") {
+      removeStageCmd(player.server, player.username, HUB_PRINCIPAL_PROTECTED_STAGE);
+    }
+
     if (questIdExit) resetQuestIfConfigured(player, questIdExit);
+    resetQuestIfConfigured(player, '5FF9CC1FFEE60516');
 
     log("EXIT type=" + type + " stage=" + stage + " deadStage=" + deadStage + " questId=" + questIdExit);
   }

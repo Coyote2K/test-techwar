@@ -38,15 +38,74 @@
 		{
 			can_repeat: true
 			dependencies: ["5D4A3EAE22F6C0C0"]
+			hide_until_deps_complete: true
+			icon: "minecraft:soul_lantern"
 			id: "53E3A0A89A94B948"
-			tasks: [{
-				icon: "born_in_chaos_v1:chocolate_heart"
-				id: "0EDABEB859F321DC"
-				title: "Acheter HP"
-				type: "custom"
+			rewards: [{
+				auto: "enabled"
+				command: "/gamestage add @p add_hp_principal"
+				icon: "minecraft:soul_lantern"
+				id: "73BEC49AA1D1B7F0"
+				silent: true
+				title: "Gagner 50 HP MAX sur ce Coeur"
+				type: "command"
 			}]
-			x: -2.5d
-			y: 4.0d
+			tasks: [{
+				id: "5CA592273426C3E6"
+				money_id: "sdm_coin"
+				type: "sdmshop:money"
+				value: 500L
+			}]
+			title: "Acheter de HP"
+			x: -3.0d
+			y: 4.5d
+		}
+		{
+			can_repeat: true
+			dependencies: ["5D4A3EAE22F6C0C0"]
+			hide_dependency_lines: true
+			icon: "minecraft:cherry_sapling"
+			id: "5FF9CC1FFEE60516"
+			invisible: true
+			tasks: [{
+				disable_toast: true
+				icon: "minecraft:cherry_sapling"
+				id: "02A51A0A70A87E7F"
+				stage: "hub_principal_protected"
+				title: "Connection avec le vaisseau"
+				type: "gamestage"
+			}]
+			title: "Base connectée"
+			x: 3.0d
+			y: 3.0d
+		}
+		{
+			can_repeat: true
+			dependencies: [
+				"5D4A3EAE22F6C0C0"
+				"5FF9CC1FFEE60516"
+			]
+			hide_dependency_lines: true
+			hide_until_deps_complete: true
+			icon: "mffs:projector"
+			id: "734801AD60658A00"
+			rewards: [{
+				auto: "enabled"
+				command: "/hubtopblock"
+				icon: "mffs:projector"
+				id: "03958B2C15B034AC"
+				title: "Récupérez vôtre Projecteur de Champs de Force"
+				type: "command"
+			}]
+			tasks: [{
+				id: "34A1AFD5511270AD"
+				money_id: "sdm_coin"
+				type: "sdmshop:money"
+				value: 5000L
+			}]
+			title: "Récuperez vôtre Champ de Force"
+			x: 0.0d
+			y: 3.0d
 		}
 	]
 	title: "Principale"

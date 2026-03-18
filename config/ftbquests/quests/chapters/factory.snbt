@@ -38,14 +38,15 @@
 			can_repeat: true
 			dependencies: ["60AD4B7AFB0B6270"]
 			hide_until_deps_visible: true
-			icon: "born_in_chaos_v1:chocolate_heart"
+			icon: "minecraft:soul_lantern"
 			id: "1267B08D6774DB1B"
 			rewards: [{
 				auto: "enabled"
-				command: "/gamestage add @p factory_hp"
-				icon: "born_in_chaos_v1:chocolate_heart"
+				command: "/gamestage add @p add_hp_factory"
+				icon: "minecraft:soul_lantern"
 				id: "51760652A4245696"
-				title: "50 Factory : +50 PV"
+				silent: true
+				title: "Gagner 50 HP MAX sur ce Coeur"
 				type: "command"
 			}]
 			tasks: [{
@@ -108,7 +109,7 @@
 		{
 			can_repeat: true
 			dependencies: ["60AD4B7AFB0B6270"]
-			icon: "alexsmobs:soul_heart"
+			icon: "minecraft:beacon"
 			id: "0D06746EC76327EF"
 			rewards: [{
 				auto: "enabled"
