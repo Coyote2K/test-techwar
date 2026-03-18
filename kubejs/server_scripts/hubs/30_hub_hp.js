@@ -49,6 +49,30 @@ function sanitizeId(s) {
 }
 function nowMs() { return Date.now(); }
 
+function ensureHubProtectionFields(hub, type) {
+  if (!hub) return hub;
+
+  // Par défaut, un coeur est protégé
+  if (hub.protectionState == null) hub.protectionState = "protected";
+  if (hub.protectionUntilMs == null) hub.protectionUntilMs = 0;
+
+  return hub;
+}
+
+function isHubCurrentlyProtected(hub, type) {
+  if (!hub) return true;
+
+  ensureHubProtectionFields(hub, type);
+
+  // Ici, on applique la protection surtout au coeur principal.
+  // Si tu veux l'étendre aux autres types plus tard, la structure est déjà prête.
+  if (String(type) === "PRINCIPAL") {
+    return String(hub.protectionState) !== "not_protected";
+  }
+
+  return false;
+}
+
 // Compatibilité hubs déjà existants (sans hp/maxHp)
 function ensureHubHpFields(hub, type) {
   if (!hub) return hub;
@@ -67,6 +91,7 @@ function ensureHubHpFields(hub, type) {
     if (hub.dead == null) hub.dead = false;
   }
 
+  ensureHubProtectionFields(hub, type);
   return hub;
 }
 
@@ -140,7 +165,41 @@ function getOrCreateHubForBlock(server, player, block, type) {
 
   return { root: root, teamId: teamId, dim: dim, key: k, hub: hub };
 }
+// ======================================================
+///Mort d'un hub : gamestage equipe tueuse : 
+// ======================================================
+function killerRewardStageForDestroyedHub(type, ownerTeamId) {
+  if (!type || !ownerTeamId) return null;
 
+  var safeType = sanitizeId(type);
+  var safeOwnerTeamId = sanitizeId(ownerTeamId);
+
+  return "hub_killed_" + safeType + "_" + safeOwnerTeamId;
+}
+
+function addStageToOnlineTeamPlayers(server, targetTeamId, stage) {
+  if (!server || !targetTeamId || !stage) return 0;
+
+  const reg = HR();
+  if (!reg) return 0;
+
+  const players = server.players;
+  if (!players) return 0;
+
+  var count = 0;
+
+  for (var pl of players) {
+    if (!pl) continue;
+
+    var playerTeamId = String(reg.teamOf(server, pl));
+    if (playerTeamId !== String(targetTeamId)) continue;
+
+    reg.addStageCmd(server, pl.username, stage);
+    count++;
+  }
+
+  return count;
+}
 // ======================================================
 // 1) Casse : incassable en survie, cassable en créatif
 // ======================================================
@@ -264,8 +323,40 @@ BlockEvents.leftClicked(event => {
 
   if (hub.hp <= 0) {
     hub.dead = true;
+
     p.tell("§4Le coeur " + type + " est éteint !");
-    // Ici : vous choisirez la conséquence (désactivation zone, remplacement bloc, etc.)
+
+    const killerTeamId = String(attackerTeam);
+    const deadHubOwnerTeamId = String(ownerTeam);
+
+    // Stage dynamique basé sur :
+    // - le type du hub détruit
+    // - l'équipe propriétaire du hub détruit
+    const rewardStage = killerRewardStageForDestroyedHub(type, deadHubOwnerTeamId);
+
+    if (rewardStage) {
+      var rewarded = addStageToOnlineTeamPlayers(server, killerTeamId, rewardStage);
+
+      sendMessageToTeam(
+        server,
+        killerTeamId,
+        "§aVotre équipe a détruit le coeur " + type + " de l'équipe §f" + deadHubOwnerTeamId + "§a."
+      );
+
+      reg.log(
+        "[HUB DEATH REWARD] hubType=" + type +
+        " ownerTeam=" + deadHubOwnerTeamId +
+        " killerTeam=" + killerTeamId +
+        " stage=" + rewardStage +
+        " playersRewarded=" + rewarded
+      );
+    }
+
+    sendMessageToTeam(
+      server,
+      deadHubOwnerTeamId,
+      "§4Votre coeur " + type + " a été détruit."
+    );
   }
 });
 
@@ -353,3 +444,38 @@ BlockEvents.rightClicked(event => {
     p.tell("§aStatut : actif");
   }
 });
+
+function sendTitleToOnlineTeamPlayers(server, targetTeamId, titleText, subtitleText, fadeIn, stay, fadeOut) {
+  if (!server || !targetTeamId) return 0;
+  if (!global.HubRegistry) return 0;
+
+  var reg = global.HubRegistry;
+  var players = server.players;
+  if (!players) return 0;
+
+  var count = 0;
+  var fi = (fadeIn != null) ? Number(fadeIn) : 10;
+  var st = (stay != null) ? Number(stay) : 60;
+  var fo = (fadeOut != null) ? Number(fadeOut) : 20;
+
+  for (var pl of players) {
+    if (!pl) continue;
+
+    var playerTeamId = String(reg.teamOf(server, pl));
+    if (playerTeamId !== String(targetTeamId)) continue;
+
+    reg.runCmdSilentWithServer(server, "title " + pl.username + " times " + fi + " " + st + " " + fo);
+
+    if (titleText && String(titleText).length > 0) {
+      reg.runCmdSilentWithServer(server, "title " + pl.username + " title " + JSON.stringify(String(titleText)));
+    }
+
+    if (subtitleText && String(subtitleText).length > 0) {
+      reg.runCmdSilentWithServer(server, "title " + pl.username + " subtitle " + JSON.stringify(String(subtitleText)));
+    }
+
+    count++;
+  }
+
+  return count;
+}

@@ -71,14 +71,37 @@
 				"4B9523489EA21D00"
 			]
 			hide_dependency_lines: true
-			icon: "minecraft:iron_ingot"
+			icon: "minecraft:iron_nugget"
 			id: "10DD4AA94B159706"
-			rewards: [{
-				auto: "enabled"
-				command: "/gamestage add @p quest_drop_iron"
-				id: "5800FD68C83718C0"
-				type: "command"
-			}]
+			rewards: [
+				{
+					auto: "enabled"
+					command: "/gamestage add @p quest_drop_iron"
+					icon: "minecraft:iron_nugget"
+					id: "5800FD68C83718C0"
+					silent: true
+					title: "Production I"
+					type: "command"
+				}
+				{
+					auto: "enabled"
+					command: "/gamestage remove @p free_academy"
+					icon: "minecraft:iron_nugget"
+					id: "6867F6719AD832C2"
+					silent: true
+					title: "Production I"
+					type: "command"
+				}
+				{
+					auto: "enabled"
+					command: "/ftbquests change_progress @p reset 4B9523489EA21D00"
+					icon: "minecraft:iron_nugget"
+					id: "67565E5CC2E80B3A"
+					silent: true
+					title: "Production I"
+					type: "command"
+				}
+			]
 			tasks: [{
 				id: "5035F157706E4848"
 				money_id: "sdm_coin"
@@ -96,13 +119,37 @@
 				"4B9523489EA21D00"
 			]
 			hide_dependency_lines: true
-			icon: "born_in_chaos_v1:dark_metal_ingot"
+			icon: "minecraft:iron_ingot"
 			id: "3807FB32BECB1972"
-			rewards: [{
-				command: "/gamestage add @p quest_drop_iron_2"
-				id: "5A8FC6D876DA4899"
-				type: "command"
-			}]
+			rewards: [
+				{
+					auto: "enabled"
+					command: "/gamestage add @p quest_drop_iron_2"
+					icon: "minecraft:iron_ingot"
+					id: "5A8FC6D876DA4899"
+					silent: true
+					title: "Production II"
+					type: "command"
+				}
+				{
+					auto: "enabled"
+					command: "/gamestage remove @p free_academy"
+					icon: "minecraft:iron_ingot"
+					id: "132871CC494C5C2C"
+					silent: true
+					title: "Production II"
+					type: "command"
+				}
+				{
+					auto: "enabled"
+					command: "/ftbquests change_progress @p reset 4B9523489EA21D00"
+					icon: "minecraft:iron_ingot"
+					id: "14574C87B3286377"
+					silent: true
+					title: "Production II"
+					type: "command"
+				}
+			]
 			tasks: [{
 				id: "5D7E04B03F7892BC"
 				money_id: "sdm_coin"
@@ -125,6 +172,7 @@
 					command: "/gamestage add @p academy_revive"
 					icon: "minecraft:totem_of_undying"
 					id: "071232513713EFDE"
+					silent: true
 					title: "Régénérer le Coeur"
 					type: "command"
 				}
@@ -133,6 +181,7 @@
 					command: "/gamestage remove @p hub_academy_dead_access_lock"
 					icon: "minecraft:totem_of_undying"
 					id: "075CA7CEA36F45FC"
+					silent: true
 					type: "command"
 				}
 				{
@@ -140,6 +189,7 @@
 					command: "/gamestage add @p free_academy"
 					icon: "minecraft:totem_of_undying"
 					id: "615700DDADDC83E8"
+					silent: true
 					type: "command"
 				}
 			]
@@ -207,6 +257,9 @@
 		}
 		{
 			can_repeat: true
+			dependencies: ["0E3B0E547E0A7F67"]
+			disable_toast: true
+			hide_until_deps_visible: true
 			id: "4B9523489EA21D00"
 			invisible: true
 			tasks: [{

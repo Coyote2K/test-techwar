@@ -496,6 +496,15 @@
 					title: "Ingénieur II"
 					type: "command"
 				}
+				{
+					auto: "enabled"
+					command: "/gamestage remove @p ingenieur_1"
+					icon: "minecraft:spyglass"
+					id: "6B221A3BDA234443"
+					silent: true
+					title: "Ingénieur II"
+					type: "command"
+				}
 			]
 			shape: "pentagon"
 			size: 1.5d
@@ -549,11 +558,39 @@
 			dependencies: ["6E4B04799C34CA43"]
 			icon: "minecraft:gold_nugget"
 			id: "3B5DB59ECAF85E07"
+			rewards: [
+				{
+					auto: "enabled"
+					command: "/gamestage add @p gambler_1"
+					icon: "minecraft:gold_nugget"
+					id: "2CA2DA36B3BEA904"
+					silent: true
+					title: "Gambler I"
+					type: "command"
+				}
+				{
+					auto: "enabled"
+					command: "/tellraw @p [{\"text\":\"═════════════════════════════\\n\",\"color\":\"gold\"},{\"text\":\"   Vous devenez Gambler (rang I)\\n\",\"color\":\"gold\"},{\"text\":\"   Retrouvez la liste de vos rôles avec /roles !\\n\",\"color\":\"gold\"},{\"text\":\"═════════════════════════════\",\"color\":\"gold\"}]"
+					icon: {
+						Count: 1
+						id: "minecraft:golden_helmet"
+						tag: {
+							Damage: 0
+						}
+					}
+					id: "5DF763249019CFFA"
+					silent: true
+					title: "Gambler I"
+					type: "command"
+				}
+			]
 			shape: "diamond"
 			size: 1.5d
 			tasks: [{
-				id: "0D4B0DF8571BDE33"
-				type: "custom"
+				id: "02BD3C1025115309"
+				money_id: "sdm_coin"
+				type: "sdmshop:money"
+				value: 3000L
 			}]
 			title: "Gambler I : Joueur de Poker"
 			x: 4.5d
@@ -595,13 +632,29 @@
 			dependencies: ["3B5DB59ECAF85E07"]
 			icon: "minecraft:gold_ingot"
 			id: "75EBFD66C739C2D7"
+			rewards: [
+				{
+					auto: "enabled"
+					command: "/gamestage add @p gambler_2"
+					id: "2B85A95C236C9079"
+					silent: true
+					type: "command"
+				}
+				{
+					auto: "enabled"
+					command: "/gamestage remove @p gambler_1"
+					id: "796CFBB22A09AD31"
+					silent: true
+					type: "command"
+				}
+			]
 			shape: "pentagon"
 			size: 1.5d
 			tasks: [{
-				icon: "minecraft:gold_ingot"
-				id: "2F89682472BFC3D0"
-				title: "Gambler II : Accros du Casino"
-				type: "custom"
+				id: "36C4A0D58A92E4CB"
+				money_id: "sdm_coin"
+				type: "sdmshop:money"
+				value: 10000L
 			}]
 			title: "Gambler II : Accros du Casino"
 			x: 6.75d
@@ -611,23 +664,63 @@
 			dependencies: ["75EBFD66C739C2D7"]
 			icon: "minecraft:gold_block"
 			id: "1FF4CB7AE00AD25D"
+			rewards: [
+				{
+					auto: "enabled"
+					command: "/gamestage add @p gambler_3"
+					id: "452954185354FB28"
+					silent: true
+					type: "command"
+				}
+				{
+					auto: "enabled"
+					command: "/gamestage remove @p gambler_2"
+					id: "5E04E479119AC93D"
+					silent: true
+					type: "command"
+				}
+			]
 			shape: "octagon"
 			size: 1.5d
 			tasks: [{
-				id: "5E16F12025898BFC"
-				type: "custom"
+				id: "74F4166FE17D1FB7"
+				money_id: "sdm_coin"
+				type: "sdmshop:money"
+				value: 20000L
 			}]
 			title: "Gambler III : Compteur de Cartes"
 			x: 9.0d
 			y: 15.75d
 		}
 		{
+			can_repeat: true
 			dependencies: ["3B5DB59ECAF85E07"]
 			icon: "minecraft:bell"
 			id: "109FF3D4A9EADD10"
+			rewards: [
+				{
+					auto: "enabled"
+					command: "gamestage add @p gambling"
+					icon: "minecraft:golden_horse_armor"
+					id: "3F6A544E7AEFACA2"
+					silent: true
+					title: "Vous pariez au quitte ou double"
+					type: "command"
+				}
+				{
+					auto: "enabled"
+					command: "/sdmshop add @p 50"
+					icon: "minecraft:golden_horse_armor"
+					id: "2E7C9139291D8F1F"
+					silent: true
+					type: "command"
+				}
+			]
 			tasks: [{
-				id: "0D95EDF9E4ECFE7E"
-				type: "custom"
+				id: "0F1EC528AAB93747"
+				money_id: "sdm_coin"
+				type: "sdmshop:money"
+				value: 50L
 			}]
 			title: "Quitte ou Double"
 			x: 6.5d
@@ -636,17 +729,22 @@
 		{
 			can_repeat: true
 			dependencies: ["75EBFD66C739C2D7"]
-			icon: {
-				Count: 1
-				id: "farmersdelight:golden_knife"
-				tag: {
-					Damage: 0
-				}
-			}
+			icon: "minecraft:poisonous_potato"
 			id: "03F4916441F9E1AA"
+			rewards: [{
+				auto: "enabled"
+				command: "/gamestage add @p gambling_heart"
+				icon: "minecraft:apple"
+				id: "182304822DFFC743"
+				silent: true
+				title: "Gambler vos vies "
+				type: "command"
+			}]
 			tasks: [{
-				id: "592CC8D85677E2CA"
-				type: "custom"
+				id: "7AB0A4DA101CCEAC"
+				money_id: "sdm_coin"
+				type: "sdmshop:money"
+				value: 240L
 			}]
 			title: "Empoisonner un ennemie"
 			x: 9.0d
@@ -655,11 +753,20 @@
 		{
 			can_repeat: true
 			dependencies: ["1FF4CB7AE00AD25D"]
-			icon: "born_in_chaos_v1:death_totem"
+			icon: "minecraft:black_glazed_terracotta"
 			id: "1D4AB3478BD9ED11"
+			rewards: [{
+				auto: "enabled"
+				command: "/gamestage add @p gambler_death"
+				id: "66DC6C3BF374A55E"
+				silent: true
+				type: "command"
+			}]
 			tasks: [{
-				id: "34D91ED20175138F"
-				type: "custom"
+				id: "38C009F5A25036B8"
+				money_id: "sdm_coin"
+				type: "sdmshop:money"
+				value: 500L
 			}]
 			title: "Envoyer la Faucheuse"
 			x: 11.0d
@@ -809,6 +916,15 @@
 						}
 					}
 					id: "67AEA90DA4F85B7F"
+					silent: true
+					title: "Ingénieur III"
+					type: "command"
+				}
+				{
+					auto: "enabled"
+					command: "/gamestage remove @p ingenieur_2"
+					icon: "minecraft:spyglass"
+					id: "5942A2CC7FC99732"
 					silent: true
 					title: "Ingénieur III"
 					type: "command"

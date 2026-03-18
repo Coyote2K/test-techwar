@@ -206,6 +206,25 @@ GameStageEvents.stageAdded(event => {
 
   return
 }
+
+  if (stage === "factory_revive") {
+  player.stages.remove("factory_revive")
+  var questId = "738AC2F34C7DA91E"
+  global.FTBQuestsBridge.resetQuest(player, questId)
+  var reg = global.HubRegistry
+  var root = reg.getRoot(server)
+  var teamId = reg.teamOf(server, player)
+
+  var ok = reviveTeamHub(server, teamId, "FACTORY")
+
+  if (ok) {
+    player.tell("§aLe coeur de la Factory a été réactivé.")
+  } else {
+    player.tell("§cAucun coeur Factory trouvé pour votre équipe.")
+  }
+
+  return
+}
   // =====================================================
   // STAGE : quest_drop_iron
   // =====================================================

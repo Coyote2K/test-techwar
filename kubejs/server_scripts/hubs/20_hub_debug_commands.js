@@ -211,13 +211,13 @@ global.HubDebug.handle = function(event) {
   var parts = msg.substring(1).split(/\s+/);
   var cmd = (parts[0] || "").toLowerCase();
 
-  if (cmd !== "balance" && cmd !== "hublist" && cmd !== "hubnear" && cmd !== "hubdist" && cmd !== "hubwipe" && cmd !== "hubwipeall") return;
+  if (cmd !== "hublist" && cmd !== "hubnear" && cmd !== "hubdist" && cmd !== "hubwipe" && cmd !== "hubwipeall") return;
 
   var server = event.server || player.server;
   var cfg = global.HubDebug.getCfg();
   var root = global.HubDebug.getRoot(server);
 
-  var teamName = teamOf(event.server, player);;
+  var teamName = teamOf(event.server, player);
   var playerDim = S(player.level.dimension);
   var radius = Number(cfg.RADIUS != null ? cfg.RADIUS : 12);
 
@@ -226,12 +226,9 @@ global.HubDebug.handle = function(event) {
 
   player.tell("§6[HUB DEBUG] §fcmd=!"+cmd+" §7team=§f"+teamName+" §7dim=§f"+global.HubDebug.fmtDim(playerDim)+" §7R=§f"+radius);
 
+
+
   // --- Commandes wipe
-  if (cmd == "balance") {
-    var playerName = player.username;
-    player.tell("On a bien balance")
-    global.HubRegistry.balancePlayer(server, playerName);
-  }
   if (cmd === "hubwipeall") {
   resetHubsRoot(server);
   player.tell("§a[HUB DEBUG] wipeAll OK (root reset).");

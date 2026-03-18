@@ -32,8 +32,8 @@
 				type: "gamestage"
 			}]
 			title: "Allez à vôtre base principale"
-			x: -0.5d
-			y: 5.0d
+			x: 0.0d
+			y: 4.5d
 		}
 		{
 			can_repeat: true

@@ -35,7 +35,7 @@ renderDistance:12
 simulationDistance:12
 entityDistanceScaling:1.0
 guiScale:0
-particles:0
+particles:2
 maxFps:120
 graphicsMode:1
 ao:true
@@ -139,7 +139,7 @@ key_key.mekanism.description:key.keyboard.n:SHIFT
 key_key.mekanism.module_tweaker:key.keyboard.backslash
 key_key.mekanism.key_boost:key.keyboard.left.control
 key_key.mekanism.key_hud:key.keyboard.h
-soundCategory_master:0.042475165562913864
+soundCategory_master:0.0
 soundCategory_music:0.0
 soundCategory_record:1.0
 soundCategory_weather:1.0

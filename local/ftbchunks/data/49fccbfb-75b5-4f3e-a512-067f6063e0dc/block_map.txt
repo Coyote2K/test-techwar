@@ -3,6 +3,7 @@
 #18D108 minecraft:basalt
 #5BA622 kubejs:base_heart_academy_bloc
 #2F36C4 kubejs:base_heart_factory_bloc
+#300860 kubejs:base_heart_principal_bloc
 #840F59 minecraft:bedrock
 #2EBF2A mffs:biometric_identifier
 #3DE8FE minecraft:birch_leaves
@@ -25,12 +26,18 @@
 #3F201C minecraft:crimson_stem
 #E9A8F5 minecraft:crying_obsidian
 #B2A2E1 minecraft:dandelion
+#A66708 minecraft:dark_oak_log
+#19C8D3 minecraft:dark_oak_planks
+#A4967C minecraft:dark_oak_slab
+#A8FCCC minecraft:dark_oak_stairs
 #5E9420 minecraft:deepslate
 #BED665 minecraft:diorite
 #80497A minecraft:dirt
+#755F40 mffs:force_field
 #1E33BF minecraft:gilded_blackstone
 #482EEB minecraft:glowstone
 #2C1BE1 minecraft:gold_block
+#B76A76 minecraft:gold_ore
 #060B35 minecraft:granite
 #3F84B7 minecraft:grass_block
 #88BAFA minecraft:gravel
@@ -53,6 +60,7 @@
 #E3886A minecraft:oak_planks
 #4A5E4E minecraft:obsidian
 #B29458 mekanism:osmium_ore
+#AB1C58 minecraft:peony
 #5CDCB7 minecraft:polished_basalt
 #FB03F5 minecraft:polished_blackstone_brick_slab
 #19F005 minecraft:polished_blackstone_brick_stairs
@@ -70,8 +78,11 @@
 #A6B33E minecraft:soul_soil
 #6B495B minecraft:spawner
 #5E33FE minecraft:spruce_door
+#FAE367 minecraft:spruce_fence
 #6A8B3A minecraft:spruce_log
 #49DF61 minecraft:spruce_planks
+#64F88A minecraft:spruce_slab
+#D9135A minecraft:spruce_stairs
 #DC3458 minecraft:stone
 #F8955F minecraft:stone_bricks
 #3B1D89 minecraft:stripped_oak_log

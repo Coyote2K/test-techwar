@@ -55,11 +55,16 @@
 				value: 250L
 			}]
 			title: "Acheter des HP"
-			x: 0.0d
+			x: 2.0d
 			y: -2.0d
 		}
 		{
-			dependencies: ["60AD4B7AFB0B6270"]
+			dependencies: [
+				"60AD4B7AFB0B6270"
+				"0369725DB598EE89"
+			]
+			hide_dependency_lines: true
+			hide_until_deps_complete: true
 			icon: "minecraft:gold_ingot"
 			id: "416D90D6F83110FD"
 			tasks: [{
@@ -71,19 +76,25 @@
 			y: -0.5d
 		}
 		{
-			dependencies: ["60AD4B7AFB0B6270"]
+			dependencies: [
+				"60AD4B7AFB0B6270"
+				"0369725DB598EE89"
+			]
+			hide_dependency_lines: true
+			hide_until_deps_complete: true
 			icon: "minecraft:gold_block"
 			id: "19B9342A0453E246"
-			tasks: [{
-				id: "6CEB11FE19532E52"
-				type: "custom"
-			}]
 			title: "Production III"
 			x: -3.0d
 			y: -1.5d
 		}
 		{
-			dependencies: ["60AD4B7AFB0B6270"]
+			dependencies: [
+				"60AD4B7AFB0B6270"
+				"0369725DB598EE89"
+			]
+			hide_dependency_lines: true
+			hide_until_deps_complete: true
 			icon: "minecraft:raw_gold"
 			id: "1B2BA5E70D673453"
 			tasks: [{
@@ -139,6 +150,81 @@
 			title: "Alarme"
 			x: 2.0d
 			y: 0.0d
+		}
+		{
+			can_repeat: true
+			dependencies: ["60AD4B7AFB0B6270"]
+			hide_until_deps_complete: true
+			hide_until_deps_visible: true
+			icon: "ftbquests:book"
+			id: "0369725DB598EE89"
+			invisible: true
+			tasks: [{
+				disable_toast: true
+				icon: "ftbquests:book"
+				id: "3C1FA01835BCA3F8"
+				stage: "free_factory"
+				title: "free_factory"
+				type: "gamestage"
+			}]
+			title: "Factory Libre"
+			x: 0.0d
+			y: 1.0d
+		}
+		{
+			can_repeat: true
+			dependencies: ["60AD4B7AFB0B6270"]
+			hide_until_deps_complete: true
+			icon: "minecraft:totem_of_undying"
+			id: "2D4727A3524C05D4"
+			rewards: [
+				{
+					auto: "no_toast"
+					icon: "minecraft:totem_of_undying"
+					id: "15FC299D8ADD3F63"
+					ignore_reward_blocking: true
+					stage: "free_factory"
+					title: "Régénerer Coeur"
+					type: "gamestage"
+				}
+				{
+					auto: "invisible"
+					command: "/gamestage remove @p hub_factory_dead_access"
+					icon: "minecraft:totem_of_undying"
+					id: "5470CBA44BCB12A6"
+					silent: true
+					title: "Régénerer le Coeur"
+					type: "command"
+				}
+				{
+					auto: "invisible"
+					command: "/gamestage add @p factory_revive"
+					icon: "minecraft:totem_of_undying"
+					id: "4B0B9ED132A43932"
+					silent: true
+					title: "Régénerer le Coeur"
+					type: "command"
+				}
+			]
+			tasks: [
+				{
+					disable_toast: true
+					icon: "minecraft:totem_of_undying"
+					id: "68076703745C13B8"
+					stage: "hub_factory_dead_access"
+					title: "Factory détruite"
+					type: "gamestage"
+				}
+				{
+					id: "5343FF4745DF62CC"
+					money_id: "sdm_coin"
+					type: "sdmshop:money"
+					value: 1000L
+				}
+			]
+			title: "Renegerer le Coeur"
+			x: 0.0d
+			y: -2.0d
 		}
 	]
 	title: "Factory"

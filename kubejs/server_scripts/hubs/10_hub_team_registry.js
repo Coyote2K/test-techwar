@@ -294,6 +294,15 @@ function addStageCmd(server, playerName, stage) {
   runCmdSilentWithServer(server, "gamestage add " + playerName + " " + stage);
 }
 
+function addPointXP(server, playerName) {
+    if (!playerName) return;
+  runCmdSilentWithServer(server, "experience add " + playerName + " 1");
+}
+
+function playSoundXP(server, playerName) {
+    if (!playerName) return;
+  runCmdSilentWithServer(server, "execute as " + playerName + " at @s run summon experience_orb ~ ~1 ~ {Value:1}");
+}
 function removeStageCmd(server, playerName, stage) {
   if (!playerName || !stage) return;
   runCmdSilentWithServer(server, "gamestage remove " + playerName + " " + stage);
@@ -652,6 +661,7 @@ function applyNearStateTransition(player, type, wasNear, isNear, nearHub) {
   log("on aopply une transition pour " + type);
   const deadStage = deadStageOfType(type);
   const freeStage = freeStageOfType(type);
+  log('free stage ' + freeStage)
   const freeQuestId = freeQuestOfType(type);
   const questIdExit = questIdOfType(type);
   const enterMsg = enterMessageOfType(type);
@@ -663,7 +673,7 @@ function applyNearStateTransition(player, type, wasNear, isNear, nearHub) {
     if (enterMsg) player.tell(asStr(enterMsg));
 
     if (stage) addStageCmd(player.server, player.username, stage);
-
+    if (freeStage) addStageCmd(player.server, player.username, freeStage);
     if (isDead && deadStage && freeStage) {
       addStageCmd(player.server, player.username, deadStage);
       removeStageCmd(player.server, player.username, freeStage);
@@ -682,6 +692,7 @@ function applyNearStateTransition(player, type, wasNear, isNear, nearHub) {
 
     if (stage) removeStageCmd(player.server, player.username, stage);
     if (deadStage) removeStageCmd(player.server, player.username, deadStage);
+    if (stage) removeStageCmd(player.server, player.username, freeStage);
 
     if (questIdExit) resetQuestIfConfigured(player, questIdExit);
 
@@ -795,6 +806,10 @@ global.HubRegistry = {
     // pour lancer des commandes
   runCmdSilentWithServer: runCmdSilentWithServer,
   balancePlayer : balancePlayer,
+  addStageCmd : addStageCmd,
+  removeStageCmd : removeStageCmd,
+  addPointXP: addPointXP,
+  playSoundXP : playSoundXP,
 
   isPlayerNearType: isPlayerNearType
 };
